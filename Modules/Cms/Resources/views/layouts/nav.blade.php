@@ -1,5 +1,5 @@
 <section class="no-print">
-    <nav class="navbar navbar-default bg-white m-4">
+    <nav class="navbar navbar-default bg-white m-8">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
@@ -42,6 +42,21 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav">
+                    <li @if(request()->type == 'gallery') class="active" @endif>
+                        <a href="{{action([\Modules\Cms\Http\Controllers\CmsPageController::class, 'index'], ['type' => 'gallery'])}}">
+                            Gallery 
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a target="_blank" href="{{action([\Modules\Cms\Http\Controllers\CmsPageController::class, 'index'], ['type' => 'gallery'])}}">
+                            <i class="fas fa-share"></i>
+                        </a>
+                    </li>
+                </ul>
+				
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>

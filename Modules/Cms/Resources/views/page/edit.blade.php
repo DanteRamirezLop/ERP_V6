@@ -55,13 +55,32 @@
         <div class="row">
             <div class="col-md-9">
                 @component('components.widget', ['class' => 'box-solid'])
-                    <div class="row">
+                   <div class="row">
+						<div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('slug', $title_label . ':*' )!!}
+                                {!! Form::text('slug', $page->slug, ['class' => 'form-control disabled_input', 'required' ]) !!}
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 {!! Form::label('title', $title_label . ':*' )!!}
                                 {!! Form::text('title', $page->title, ['class' => 'form-control', 'required' ]) !!}
                             </div>
                         </div>
+						<div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('tags', 'Tags' . ':*' )!!}
+                                {!! Form::text('tags', $page->tags, ['class' => 'form-control', 'required' ]) !!}
+                            </div>
+                        </div>
+						<div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('meta_description', 'Meta descripción' . ':*' )!!}
+                                {!! Form::text('meta_description', $page->meta_description, ['class' => 'form-control', 'required' ]) !!}
+                            </div>
+                        </div>
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 {!! Form::label('content', $content_label . ':*' )!!}
@@ -77,7 +96,7 @@
             </div>
             <div class="col-md-3">
                 @component('components.widget', ['class' => 'box-solid'])
-                    <div class="row">
+                   <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 {!! Form::label('feature_image', $feature_image_label . ':') !!}
@@ -85,6 +104,7 @@
                                 <small><p class="help-block">@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])</p>
                                     <p class="help-block">@lang('lang_v1.previous_image_will_be_replaced')</p>
                                 </small>
+								<img src="/uploads/cms/{{$page->feature_image}}" width="100%" >
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -99,6 +119,19 @@
                                 <label>
                                   {!! Form::checkbox('is_enabled', 1, $page->is_enabled, ['class' => 'input-icheck']); !!} <strong>@lang('cms::lang.is_enabled')</strong>
                                 </label> 
+                            </div>
+                        </div>
+						
+						<div class="col-md-12">
+                            <div class="form-group">
+                                <br>
+                                <label for="priority">Business</label>
+                                <select name="business_id"  class="form-control">
+                                    <option value="" disabled>Select business</option>
+                                    @foreach($business as $busines)
+                                        <option value="{{$busines->id}}" {{ $busines->id == $page->business_id ? 'selected' : ''}} >{{$busines->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>

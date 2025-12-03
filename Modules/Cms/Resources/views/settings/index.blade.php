@@ -15,7 +15,7 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
         @lang('cms::lang.site_details')
     </h1>
 </section>
@@ -63,7 +63,7 @@
                                 @includeIf('cms::settings.partials.faqs')
                                 @includeIf('cms::settings.partials.chat_widget')
                                 @includeIf('cms::settings.partials.integration')
-                                @includeIf('cms::settings.partials.buttons')
+                                <!-- includeIf('cms::settings.partials.buttons') -->
                             </div>
                         </div>
                         <!--  </pos-tab-container> -->

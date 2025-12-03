@@ -7,15 +7,28 @@
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>
-        @if($post_type == 'page')
-            @lang('cms::lang.page')
-        @elseif($post_type == 'testimonial')
-            @lang('cms::lang.testimonial')
-        @elseif($post_type == 'blog')
-            @lang('cms::lang.blog')
-        @endif
-    </h1>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <span class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+                @if($post_type == 'page')
+                    @lang('cms::lang.page')
+                @elseif($post_type == 'testimonial')
+                    @lang('cms::lang.testimonial')
+                @elseif($post_type == 'blog')
+                    @lang('cms::lang.blog')
+                @endif
+            </span>
+        </div>
+        <div class="collapse navbar-collapse">
+            @foreach($business as $busines)
+            <ul class="nav navbar-nav">
+                <li @if(request()->business == $busines->id) class="tw-font-bold" @endif>
+                    <a href="{{action([\Modules\Cms\Http\Controllers\CmsPageController::class, 'index'], ['type' => $post_type,'business' => $busines->id ])}}">{{$busines->name}}</a>
+                </li>
+            </ul>
+            @endforeach
+        </div>
+    </div>
 </section>
 
 <!-- Main content -->

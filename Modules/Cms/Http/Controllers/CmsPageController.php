@@ -8,6 +8,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Cms\Entities\CmsPage;
 use Modules\Cms\Entities\CmsPageMeta;
+use Modules\Cms\Entities\Business;
+
 
 class CmsPageController extends Controller
 {
@@ -31,14 +33,16 @@ class CmsPageController extends Controller
      */
     public function index(Request $request)
     {
-        $post_type = $request->get('type', 'page');
+		$post_type = $request->get('type', 'page');
+        $post_business = $request->get('business');
+        $pages = CmsPage::where('type', $post_type)->where('business_id',$post_business)->orderBy('created_at', 'DESC')->paginate(15);
 
-        $pages = CmsPage::where('type', $post_type)
-                    ->orderBy('priority', 'asc')
-                    ->get();
-
-        return view('cms::page.index')
-            ->with(compact('pages', 'post_type'));
+        $business = Business::skip(1)->take(12)->get();
+        if($post_type == 'gallery'){
+             return view('cms::page.gallery',compact('pages','post_type'));  
+        }else{
+            return view('cms::page.index')->with(compact('pages', 'post_type','business','post_business'));      
+        }   
     }
 
     /**
@@ -50,8 +54,9 @@ class CmsPageController extends Controller
     {
         $post_type = $request->get('type', 'page');
 
+		$business = Business::get();
         return view('cms::page.create')
-            ->with(compact('post_type'));
+            ->with(compact('post_type','business'));
     }
 
     /**
@@ -69,24 +74,18 @@ class CmsPageController extends Controller
         }
 
         try {
-            $input = $request->only(['title', 'content', 'meta_description',
-                'tags', 'priority', 'type',
-            ]);
+            $input = $request->only(['title', 'content', 'meta_description','tags', 'priority', 'type','business_id','slug']);
 
             $input['created_by'] = $request->session()->get('user.id');
-
             $input['feature_image'] = $this->commonUtil->uploadFile($request, 'feature_image', 'cms', 'image');
-
             $input['is_enabled'] = ! empty($request->is_enabled);
 
             $page = CmsPage::create($input);
-
             $output = ['success' => 1,
                 'msg' => __('lang_v1.added_success'),
             ];
         } catch (\Exception $e) {
             \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
-
             $output = ['success' => 0,
                 'msg' => __('lang_v1.something_went_wrong'),
             ];
@@ -128,15 +127,12 @@ class CmsPageController extends Controller
     {
         $post_type = request()->get('type', 'page');
 
-        $page = CmsPage::where('type', $post_type)
-                    ->findOrFail($id);
-
-        $page_meta = CmsPageMeta::where('cms_page_id', $id)
-                        ->get()
-                        ->keyBy('meta_key');
+        $page = CmsPage::where('type', $post_type)->findOrFail($id);
+        $page_meta = CmsPageMeta::where('cms_page_id', $id)->get()->keyBy('meta_key');
+		$business = Business::get();
 
         return view('cms::page.edit')
-            ->with(compact('page', 'post_type', 'page_meta'));
+            ->with(compact('page', 'post_type', 'page_meta','business'));
     }
 
     /**
@@ -156,7 +152,7 @@ class CmsPageController extends Controller
 
         try {
             $input = $request->only(['title', 'content', 'meta_description',
-                'tags', 'priority', 'type',
+                'tags', 'priority', 'type','business_id',
             ]);
 
             $page = CmsPage::findOrFail($id);

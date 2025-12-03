@@ -39,8 +39,33 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                {!! Form::label('title', $title_label . ':*' )!!}
+                                {!! Form::label('url','Nombre de la URL:*' )!!}
+                                {!! Form::text('url', null, ['class' => 'form-control', 'required','id'=>'url' ]) !!}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('slug','URL:' )!!}
+                                {!! Form::text('slug', null, ['class' => 'form-control disabled_input', 'required','id'=>'slug' ]) !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('title', 'Titulo del articulo:*' )!!}
                                 {!! Form::text('title', null, ['class' => 'form-control', 'required' ]) !!}
+                            </div>
+                        </div>
+						<div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('tags', 'Tags' . ':*' )!!}
+                                {!! Form::text('tags', null, ['class' => 'form-control', 'required' ]) !!}
+                            </div>
+                        </div>
+						<div class="col-md-12">
+                            <div class="form-group">
+                                {!! Form::label('meta_description', 'Meta descripción' . ':*' )!!}
+                                {!! Form::text('meta_description', null, ['class' => 'form-control', 'required' ]) !!}
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -54,7 +79,7 @@
             </div>
             <div class="col-md-3">
                 @component('components.widget', ['class' => 'box-solid'])
-                    <div class="row">
+                  <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 {!! Form::label('feature_image', $feature_image_label . ':') !!}
@@ -76,6 +101,21 @@
                                 </label> 
                             </div>
                         </div>
+						
+						<div class="col-md-12">
+                            <div class="form-group">
+                                <br>
+                                <label for="priority">Business</label>
+                                <select name="business_id" class="form-control">
+                                    <option disabled>Select business</option>
+                                    @foreach($business as $busines)
+                                        <option value="{{$busines->id}}">{{$busines->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+						
+						
                     </div>
                 @endcomponent
             </div>
@@ -129,6 +169,22 @@
             });
             //display notification before if any data is changed
             __page_leave_confirmation('#create_page_form');
-        })
+        });
+
+        function slugify(text, maxLength = 100) {
+            if (!text) return '';
+            let slug = text.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+            slug = slug.toLowerCase();
+            slug = slug.replace(/[^a-z0-9\s-]/g, '');
+            slug = slug.trim().replace(/[\s-]+/g, '-');
+            slug = slug.replace(/^-+|-+$/g, '');
+            if (maxLength && slug.length > maxLength) slug = slug.slice(0, maxLength).replace(/-+$/,'');
+            return slug;
+        }
+
+        $('#url').on('input', function() {
+            $('#slug').val(slugify($(this).val(), 150));
+        });
+
     </script>
 @endsection
