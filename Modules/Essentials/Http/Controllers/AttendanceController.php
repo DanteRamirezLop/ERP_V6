@@ -153,6 +153,8 @@ class AttendanceController extends Controller
         $settings = ! empty($settings) ? json_decode($settings, true) : [];
 
         $is_employee_allowed = auth()->user()->can('essentials.allow_users_for_attendance_from_web');
+        
+
         $clock_in = EssentialsAttendance::where('business_id', $business_id)
                                 ->where('user_id', auth()->user()->id)
                                 ->whereNull('clock_out_time')

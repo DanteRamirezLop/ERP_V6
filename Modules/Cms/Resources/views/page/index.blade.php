@@ -45,6 +45,7 @@
         <div class="row">
             @forelse($pages as $page)
                 <div class="col-md-4 page-box">
+                    <img src="/uploads/cms/{{$page->feature_image}} " alt="Image" width="100%">
                     @component('components.widget', ['class' => 'box box-solid', 'title' => $page->title])
                         @slot('tool')
                             <div class="box-tools" style="display: flex;">
@@ -91,7 +92,9 @@
             @endforelse
         </div>
     @endcomponent
-    
+    <div class="row text-center">
+        {!! $pages->appends(request()->query())->links() !!}
+    </div>
 </section>
 @stop
 @section('javascript')

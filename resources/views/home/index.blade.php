@@ -11,9 +11,8 @@
                 </h1>
             </div> --}}
                     <div class="sm:tw-flex sm:tw-items-center sm:tw-justify-between sm:tw-gap-12">
-                        <div class="tw-mt-2 sm:tw-w-1/2 md:tw-w-1/2">
-                            <h1
-                                class="tw-text-2xl md:tw-text-4xl tw-tracking-tight tw-text-primary-800 tw-font-semibold text-white tw-mb-10 md:tw-mb-0">
+                        <div class="tw-mt-2 sm:tw-w-1/2 md:tw-w-1/2 tw-mb-2">
+                            <h1 class="tw-text-2xl md:tw-text-4xl tw-tracking-tight tw-text-primary-800 tw-font-semibold text-white tw-mb-10 md:tw-mb-0">
                                 {{ __('home.welcome_message', ['name' => Session::get('user.first_name')]) }}
                             </h1>
                         </div>
@@ -880,7 +879,7 @@
                                 <div class="tw-flex tw-items-center tw-flex-1 tw-min-w-0 tw-gap-1">
                                     <div class="tw-w-full sm:tw-w-1/2 md:tw-w-1/2">
                                         <h3 class="tw-font-bold tw-text-base lg:tw-text-xl">
-                                            @lang('lang_v1.pending_shipments')
+                                            @lang('lang_v1.pending_shipments') 
                                         </h3>
                                     </div>
                                     <div class="tw-w-full sm:tw-w-1/2 md:tw-w-1/2">
@@ -965,7 +964,7 @@
                                 <div class="tw-flex tw-items-center tw-flex-1 tw-min-w-0 tw-gap-1">
                                     <div class="tw-w-full sm:tw-w-1/2 md:tw-w-1/2">
                                         <h3 class="tw-font-bold tw-text-base lg:tw-text-xl">
-                                            @lang('lang_v1.payment_recovered_today')
+                                            @lang('lang_v1.payment_recovered_today') 
                                         </h3>
                                     </div>
 
@@ -1008,6 +1007,36 @@
                         {!! $widget !!}
                     @endforeach
                 @endif --}}
+
+                <div
+                        class="tw-transition-all lg:tw-col-span-2 tw-duration-200 tw-bg-white tw-shadow-sm tw-rounded-xl tw-ring-1 hover:tw-shadow-md hover:tw--translate-y-0.5 tw-ring-gray-200">
+                        <div class="tw-p-4 sm:tw-p-5">
+                            <div class="tw-flex tw-items-center tw-gap-2.5">
+                                <div
+                                    class="tw-border-2 tw-flex tw-items-center tw-justify-center tw-rounded-full tw-w-10 tw-h-10">
+                                    <svg class="tw-text-sky-500 tw-size-5 tw-shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 4h12M6 4v16M6 4H5m13 0v16m0-16h1m-1 16H6m12 0h1M6 20H5M9 7h1v1H9V7Zm5 0h1v1h-1V7Zm-5 4h1v1H9v-1Zm5 0h1v1h-1v-1Zm-3 4h2a1 1 0 0 1 1 1v4h-4v-4a1 1 0 0 1 1-1Z"/>
+                                    </svg>
+
+                                </div>
+                                <div class="tw-flex tw-items-center tw-flex-1 tw-min-w-0 tw-gap-1">
+                                    <div class="tw-w-full sm:tw-w-1/2 md:tw-w-1/2">
+                                        <h3 class="tw-font-bold tw-text-base lg:tw-text-xl">
+                                            Holding
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tw-flow-root tw-mt-5  tw-border-gray-200">
+                                <div class="tw--mx-4 tw--my-2 tw-overflow-x-auto sm:tw--mx-5">
+                                    <div class="tw-inline-block tw-min-w-full tw-py-2 tw-align-middle sm:tw-px-5">
+                                        <img src="{{asset('/img/holding.webp')}}" alt="holding" with="100%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
             </div>
         </div>
     @endif

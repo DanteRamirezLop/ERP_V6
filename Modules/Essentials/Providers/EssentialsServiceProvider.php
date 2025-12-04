@@ -48,7 +48,7 @@ class EssentialsServiceProvider extends ServiceProvider
     
                     //Check if employee are allowed or not to enter own attendance.
                     $is_employee_allowed = auth()->user()->can('essentials.allow_users_for_attendance_from_web');
-    
+                
                     //Check if clocked in or not.
                     $clock_in = EssentialsAttendance::where('essentials_attendances.business_id', $business_id)
                                     ->leftjoin('essentials_shifts as es', 'es.id', '=', 'essentials_attendances.essentials_shift_id')

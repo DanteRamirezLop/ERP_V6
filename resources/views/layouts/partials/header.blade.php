@@ -47,12 +47,13 @@
             @if(!empty(session('previous_user_id')) && !empty(session('previous_username')))
                 <a href="{{route('sign-in-as-user', session('previous_user_id'))}}" class="btn btn-flat btn-danger m-8 btn-sm mt-10"><i class="fas fa-undo"></i> @lang('lang_v1.back_to_username', ['username' => session('previous_username')] )</a>
             @endif
-
+       
             <div class="tw-flex tw-flex-wrap tw-items-center tw-justify-end tw-gap-3">
                 @if (Module::has('Essentials'))
                     @includeIf('essentials::layouts.partials.header_part')
                 @endif
                 <details class="tw-dw-dropdown tw-relative tw-inline-block tw-text-left">
+                    
                     <summary
                         class="tw-inline-flex tw-transition-all tw-ring-1 tw-ring-white/10 hover:tw-text-white tw-cursor-pointer tw-duration-200 tw-bg-@if(!empty(session('business.theme_color'))){{session('business.theme_color')}}@else{{'primary'}}@endif-800 hover:tw-bg-@if(!empty(session('business.theme_color'))){{session('business.theme_color')}}@else{{'primary'}}@endif-700 tw-py-1.5 tw-px-3 tw-rounded-lg tw-items-center tw-justify-center tw-text-sm tw-font-medium tw-text-white tw-gap-1">
                         <svg aria-hidden="true" class="tw-size-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
@@ -65,6 +66,7 @@
                         </svg>
                     </summary>
                 
+                    
                     <ul class="tw-dw-menu tw-dw-dropdown-content tw-dw-z-[1] tw-dw-bg-base-100 tw-dw-rounded-box tw-w-48 tw-absolute tw-left-0 tw-z-10 tw-mt-2 tw-origin-top-right tw-bg-white tw-rounded-lg tw-shadow-lg tw-ring-1 tw-ring-gray-200 focus:tw-outline-none"
                         role="menu" tabindex="-1">
                         <div class="tw-p-2" role="none">
@@ -119,9 +121,7 @@
                             @endif
                         </div>
                     </ul>
-
                 </details>
-
 
                 {{-- data-toggle="popover" remove this for on hover show --}}
 
