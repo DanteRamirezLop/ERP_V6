@@ -1030,7 +1030,7 @@
                             <div class="tw-flow-root tw-mt-5  tw-border-gray-200">
                                 <div class="tw--mx-4 tw--my-2 tw-overflow-x-auto sm:tw--mx-5">
                                     <div class="tw-inline-block tw-min-w-full tw-py-2 tw-align-middle sm:tw-px-5">
-                                        <img src="{{asset('/img/holding.webp')}}" alt="holding" with="100%">
+                                        <img src="{{asset('/img/business.webp')}}" alt="holding" with="100%">
                                     </div>
                                 </div>
                             </div>

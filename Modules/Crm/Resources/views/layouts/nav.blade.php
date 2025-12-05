@@ -13,7 +13,7 @@
             border-left: 0.3em solid transparent;
         }
     </style>
-    <nav class="navbar navbar-default bg-white m-4">
+    <nav class="navbar navbar-default bg-white m-8">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
