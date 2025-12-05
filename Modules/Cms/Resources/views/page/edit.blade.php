@@ -153,7 +153,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-iconpicker/1.10.0/js/bootstrap-iconpicker.bundle.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            init_tinymce('content');
+            init_tinymce_blog('content',null);
             var img_fileinput_setting = {
                 showUpload: false,
                 showPreview: true,

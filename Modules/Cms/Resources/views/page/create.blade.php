@@ -134,7 +134,7 @@
 @section('javascript')
     <script type="text/javascript">
         $(document).ready(function () {
-            init_tinymce('content');
+            init_tinymce_blog('content',null);
 
             var img_fileinput_setting = {
                 showUpload: false,

@@ -494,6 +494,30 @@ function init_tinymce(editor_id) {
     });
 }
 
+
+//initialize tinyMCE editor for invoice template
+function init_tinymce_blog(editor_id, template) {
+    tinymce.init({
+        relative_urls : false,
+        remove_script_host : true,
+        document_base_url : 'http://www.example.com/',
+        selector: 'textarea#' + editor_id,
+        plugins: [
+        'advlist autolink link image lists charmap print preview hr anchor pagebreak',
+        'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+        'table template paste help'
+        ],
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify |' +
+          ' bullist numlist outdent indent | link image | print preview fullpage | ' +
+          'forecolor backcolor',
+        menu: {
+          favs: {title: 'My Favorites', items: 'code | searchreplace'}
+        },
+        menubar: 'favs file edit view insert format tools table help',
+        templates : template,
+    });
+}
+
 function getSelectedRows() {
     var selected_rows = [];
     var i = 0;
