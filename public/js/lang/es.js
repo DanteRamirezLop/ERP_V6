@@ -73,7 +73,7 @@ LANG = {
 "print": "Impresión", 
 "col_vis": "Visibilidad de columna", 
 "search": "Buscar", 
-"show": "Espectáculo", 
+"show": "Mostrar", 
 "entries": "entradas", 
 "table_emptyTable": "No hay datos disponibles en la tabla", 
 "table_info": "Mostrando _START_ a _END_ de _TOTAL_ entradas", 

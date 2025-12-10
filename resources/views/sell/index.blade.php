@@ -52,7 +52,7 @@
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 5l0 14" />
                                 <path d="M5 12l14 0" />
-                            </svg> @lang('messages.add') 
+                            </svg> @lang('messages.add')  
                         </a>
                     </div>
                 @endslot
@@ -87,7 +87,7 @@
                             <th>{{ $custom_labels['sell']['custom_field_2'] ?? '' }}</th>
                             <th>{{ $custom_labels['sell']['custom_field_3'] ?? '' }}</th>
                             <th>{{ $custom_labels['sell']['custom_field_4'] ?? '' }}</th>
-                            <th>@lang('lang_v1.added_by')</th>
+                            <th>@lang('lang_v1.added_by') </th>
                             <th>@lang('sale.sell_note')</th>
                             <th>@lang('sale.staff_note')</th>
                             <th>@lang('sale.shipping_details')</th>
