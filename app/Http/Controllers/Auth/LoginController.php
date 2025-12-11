@@ -137,7 +137,6 @@ class LoginController extends Controller
         //         'password' => 'required|string',
         //         'g-recaptcha-response' => ['required', new ReCaptcha]
         //     ]);
-        // }
 
         //VALIDACION CON TURNSTILE DE CLOUDFLARE
         if(config('services.turnstile.enable')){

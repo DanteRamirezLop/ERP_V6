@@ -181,12 +181,12 @@
                         </div>
 
                         @if(config('services.turnstile.enable'))
-                        <div class="mb-2">
+                        <div class="text-center mb-2">
                             {{-- Turnstile --}}
                             <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
-                        </div>
-                        <div class="text-center">
-                         
+                            @if ($errors->has('cf-turnstile-response'))
+                                <span class="text-danger">{{ $errors->first('cf-turnstile-response') }}</span>
+                            @endif
                         </div>
                         @endif
 
@@ -225,7 +225,7 @@
 @stop
 @section('javascript')
     <!-- Script de Turnstile  -->
-    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <!-- <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> -->
 
     <script type="text/javascript">
         $(document).ready(function() {
