@@ -29,10 +29,9 @@ class Turnstile implements Rule
         $response = Http::get("https://challenges.cloudflare.com/turnstile/v0/siteverify",[
             'secret'   => config('services.turnstile.secret_key'),
             'response' => $value,
+            'remoteip' => request()->ip(),
         ]);
-        // 'remoteip' => request()->ip(),
-        $data = $response->json();
-        return $data['success'] ?? false;
+        return $response->json()["success"] ?? false;
     }
 
     /**
