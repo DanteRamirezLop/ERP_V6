@@ -183,9 +183,10 @@
                         @if(config('services.turnstile.enable'))
                         <div class="text-center mb-2">
                             {{-- Turnstile --}}
-                            <div class="cf-turnstile"
-                                data-sitekey="{{ config('services.turnstile.site_key') }}">
-                            </div>
+                            <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
+                            @if ($errors->has('cf-turnstile-response'))
+                                <span class="text-danger">{{ $errors->first('cf-turnstile-response') }}</span>
+                            @endif
                         </div>
                         @endif
 
