@@ -21,7 +21,6 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 </head>
 
@@ -35,8 +34,6 @@
         <div class="row eq-height-row">
             <div class="col-md-12 col-sm-12 col-xs-12 right-col tw-pt-20 tw-pb-10 tw-px-5">
                 <div class="row">
-                   
-
                     <div class="tw-absolute tw-top-5 md:tw-top-8 tw-right-5 md:tw-right-10 tw-flex tw-items-center tw-gap-3"
                         style="text-align: left">
                         <!-- Register Url -->
@@ -57,9 +54,6 @@
                                 href="{{ action([\App\Http\Controllers\Auth\LoginController::class, 'login'])}}@if(!empty(request()->lang)){{'?lang='.request()->lang}}@endif">{{ __('business.sign_in') }}</a>
                         @endif
                         @include('layouts.partials.language_btn')
-                    </div>
-                    <div class="col-md-10 col-xs-8" style="text-align: right;">
-
                     </div>
                 </div>
                 @yield('content')

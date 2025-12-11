@@ -124,8 +124,7 @@
                         <div class="form-group has-feedback {{ $errors->has('username') ? ' has-error' : '' }}">
                             <label class="tw-dw-form-control">
                                 <div class="tw-dw-label">
-                                    <span
-                                        class="tw-text-xs md:tw-text-sm tw-font-medium tw-text-black">@lang('lang_v1.username')</span>
+                                    <span class="tw-text-xs md:tw-text-sm tw-font-medium tw-text-black">@lang('lang_v1.username')</span>
                                 </div>
 
                                 <input
@@ -180,6 +179,16 @@
                                     class="tw-text-xs md:tw-text-sm tw-font-medium tw-text-black tw-mt-[0.2rem]">@lang('lang_v1.remember_me')</span>
                             </label>
                         </div>
+
+                        @if(config('services.turnstile.enable'))
+                        <div class="text-center mb-2">
+                            {{-- Turnstile --}}
+                            <div class="cf-turnstile"
+                                data-sitekey="{{ config('services.turnstile.site_key') }}">
+                            </div>
+                        </div>
+                        @endif
+
                         @if(config('constants.enable_recaptcha'))
                         <div class="row">
                             <div class="col-md-12">
@@ -192,6 +201,7 @@
                             </div>
                         </div>
                         @endif
+
                         <button type="submit"
                             class="tw-bg-gradient-to-r tw-from-indigo-500 tw-to-blue-500 tw-h-12 tw-rounded-xl tw-text-sm md:tw-text-base tw-text-white tw-font-semibold tw-w-full tw-max-w-full mt-2 hover:tw-from-indigo-600 hover:tw-to-blue-600 focus:tw-outline-none focus:tw-ring-2 focus:tw-ring-blue-500 focus:tw-ring-offset-2 active:tw-from-indigo-700 active:tw-to-blue-700">
                             @lang('lang_v1.login') 
@@ -199,7 +209,7 @@
                     </form>
 
                     <div class="tw-flex tw-items-center tw-flex-col">
-                        <!-- Register Url -->
+
                     </div>
                 </div>
             </div>
@@ -213,6 +223,9 @@
 
 @stop
 @section('javascript')
+    <!-- Script de Turnstile  -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             $('#show_hide_icon').off('click');

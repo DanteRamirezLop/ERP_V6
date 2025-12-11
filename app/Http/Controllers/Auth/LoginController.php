@@ -9,7 +9,7 @@ use App\Utils\ModuleUtil;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Rules\ReCaptcha;
-
+use App\Rules\Turnstile;
 
 class LoginController extends Controller
 {
@@ -91,20 +91,10 @@ class LoginController extends Controller
 
         if (! $user->business->is_active) {
             \Auth::logout();
-
-            return redirect('/login')
-              ->with(
-                  'status',
-                  ['success' => 0, 'msg' => __('lang_v1.business_inactive')]
-              );
+            return redirect('/login')->with('status',['success' => 0, 'msg' => __('lang_v1.business_inactive')]);
         } elseif ($user->status != 'active') {
             \Auth::logout();
-
-            return redirect('/login')
-              ->with(
-                  'status',
-                  ['success' => 0, 'msg' => __('lang_v1.user_inactive')]
-              );
+            return redirect('/login')->with('status',['success' => 0, 'msg' => __('lang_v1.user_inactive')]);
         } elseif (! $user->allow_login) {
             \Auth::logout();
 
@@ -140,11 +130,21 @@ class LoginController extends Controller
 
     public function validateLogin(Request $request)
     {
-        if(config('constants.enable_recaptcha')){
+        //VALIDACION CON GOOGLE RECAPTCHA
+        // if(config('constants.enable_recaptcha')){
+        //     $this->validate($request, [
+        //         $this->username() => 'required|string',
+        //         'password' => 'required|string',
+        //         'g-recaptcha-response' => ['required', new ReCaptcha]
+        //     ]);
+        // }
+
+        //VALIDACION CON TURNSTILE DE CLOUDFLARE
+        if(config('services.turnstile.enable')){
             $this->validate($request, [
                 $this->username() => 'required|string',
                 'password' => 'required|string',
-                'g-recaptcha-response' => ['required', new ReCaptcha]
+                'cf-turnstile-response' => ['required',new Turnstile],
             ]);
         }else{
             $this->validate($request, [
@@ -153,6 +153,7 @@ class LoginController extends Controller
             ]);
         }
        
+
     }
 
 }
