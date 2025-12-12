@@ -225,15 +225,15 @@
 
 @stop
 @section('javascript')
-    <!-- Script de Turnstile  -->
-     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> 
 
     <script type="text/javascript">
         $(document).ready(function() {
+        
             $('#show_hide_icon').off('click');
             $('.change_lang').click(function() {
                 window.location = "{{ route('login') }}?lang=" + $(this).attr('value');
             });
+
             $('a.demo-login').click(function(e) {
                 e.preventDefault();
                 $('#username').val($(this).data('admin'));

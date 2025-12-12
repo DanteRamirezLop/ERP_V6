@@ -3,7 +3,7 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
-use App\Services\Turnstile;
+use Illuminate\Support\Facades\Http;
 
 class Turnstile implements Rule
 {
@@ -26,9 +26,12 @@ class Turnstile implements Rule
      */
     public function passes($attribute, $value)
     {
-        $token = (string) $value;
-        $result = app(Turnstile::class)->verify($token, request()->ip());
-        return (bool)($result['success'] ?? false);
+       return  Http::post(
+            url: 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+            data: [
+                'secret' => config('services.turnstile.secret_key'),
+                'response' => $value,
+            ])->json('success');
     }
 
     /**

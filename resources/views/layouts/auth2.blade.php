@@ -22,6 +22,9 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <!-- <script src='https://www.google.com/recaptcha/api.js'></script> -->
+    <!-- Script de Turnstile  -->
+     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script> 
+
 
 </head>
 
