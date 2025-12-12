@@ -181,6 +181,7 @@
                         </div>
 
                         @if(config('services.turnstile.enable'))
+                        
                         <div class="text-center mb-2">
                             {{-- Turnstile --}}
                             <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
