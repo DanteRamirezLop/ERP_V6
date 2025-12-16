@@ -8,8 +8,8 @@ use App\Utils\BusinessUtil;
 use App\Utils\ModuleUtil;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use App\Rules\ReCaptcha;
 use App\Rules\Turnstile;
+use App\Rules\Hcaptcha;
 
 class LoginController extends Controller
 {
@@ -130,20 +130,21 @@ class LoginController extends Controller
 
     public function validateLogin(Request $request)
     {
-        //VALIDACION CON GOOGLE RECAPTCHA
-        // if(config('constants.enable_recaptcha')){
+
+        //VALIDACION CON TURNSTILE DE CLOUDFLARE
+        // if(config('services.turnstile.enable')){
         //     $this->validate($request, [
         //         $this->username() => 'required|string',
         //         'password' => 'required|string',
-        //         'g-recaptcha-response' => ['required', new ReCaptcha]
+        //         'cf-turnstile-response' => ['required',new Turnstile],
         //     ]);
 
-        //VALIDACION CON TURNSTILE DE CLOUDFLARE
-        if(config('services.turnstile.enable')){
+        //VALIDACION CON GOOGLE HCAPTCHA - SE REUTILIZARON LAS LLAVES DE RECAPTCHA
+        if(config('constants.enable_recaptcha')){
             $this->validate($request, [
                 $this->username() => 'required|string',
                 'password' => 'required|string',
-                'cf-turnstile-response' => ['required',new Turnstile],
+                'g-recaptcha-response' => ['required', new Hcaptcha]
             ]);
         }else{
             $this->validate($request, [
@@ -151,8 +152,6 @@ class LoginController extends Controller
                 'password' => 'required|string',
             ]);
         }
-       
-
     }
 
 }

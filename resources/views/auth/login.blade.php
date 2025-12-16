@@ -181,7 +181,6 @@
                         </div>
 
                         @if(config('services.turnstile.enable'))
-                        
                         <div class="text-center mb-2">
                             {{-- Turnstile --}}
                             <div class="cf-turnstile" data-sitekey="{{ config('services.turnstile.site_key') }}"></div>
@@ -195,10 +194,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <div class="g-recaptcha" data-sitekey="{{ config('constants.google_recaptcha_key') }}"></div>
-                                        @if ($errors->has('g-recaptcha-response'))
-                                            <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
-                                        @endif
+                                    <div class="h-captcha" data-sitekey="{{ config('constants.google_recaptcha_key') }}"></div>
+                                    @if ($errors->has('g-recaptcha-response'))
+                                        <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                    @endif
                                 </div>  
                             </div>
                         </div>
@@ -228,7 +227,6 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-        
             $('#show_hide_icon').off('click');
             $('.change_lang').click(function() {
                 window.location = "{{ route('login') }}?lang=" + $(this).attr('value');

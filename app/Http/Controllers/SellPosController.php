@@ -659,13 +659,13 @@ class SellPosController extends Controller
                 }
             } else {
                 $output = ['success' => 0,
-                    'msg' => trans('messages.something_went_wrong'),
+                    'msg' => trans('messages.something_went_wrong'.'danteeeee'),
                 ];
             }
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
-            $msg = trans('messages.something_went_wrong');
+            $msg = trans('messages.something_went_wrong'.'danteeee111');
 
             if (get_class($e) == \App\Exceptions\PurchaseSellMismatch::class) {
                 $msg = $e->getMessage();
@@ -1494,14 +1494,14 @@ class SellPosController extends Controller
                 }
             } else {
                 $output = ['success' => 0,
-                    'msg' => trans('messages.something_went_wrong'),
+                    'msg' => trans('messages.something_went_wrong'.'datnte222'),
                 ];
             }
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
             $output = ['success' => 0,
-                'msg' => __('messages.something_went_wrong'),
+                'msg' => __('messages.something_went_wrong'.'datnte3333'),
             ];
         }
 
