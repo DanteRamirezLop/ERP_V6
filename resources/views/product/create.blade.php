@@ -294,15 +294,15 @@
                             <input type="{{$cf_type}}" name="{{$db_field_name}}" id="{{$db_field_name}}" value="{{!empty($duplicate_product->$db_field_name) ? $duplicate_product->$db_field_name : null}}" class="form-control" placeholder="{{$cf}}">
 
                         @elseif($cf_type == 'dropdown')
-                            <!-- {!! Form::select($db_field_name, $dropdown, !empty($duplicate_product->$db_field_name) ? $duplicate_product->$db_field_name : null, ['placeholder' => $cf, 'class' => 'form-control select2']); !!} -->
-                            <select name="{{ $db_field_name }}" id="{{ $db_field_name }}" class="form-control select2">
+                            {!! Form::select($db_field_name, $dropdown, !empty($duplicate_product->$db_field_name) ? $duplicate_product->$db_field_name : null, ['placeholder' => $cf, 'class' => 'form-control select2']); !!} 
+                            <!-- <select name="{{ $db_field_name }}" id="{{ $db_field_name }}" class="form-control select2">
                                 <option value="">{{ $cf }}</option>
                                 @foreach($dropdown as $option)
                                     <option value="{{ $option }}" @if(!empty($duplicate_product->$db_field_name) && $option == $duplicate_product->$db_field_name) selected @endif>
                                         {{ $option }}
                                     </option>
                                 @endforeach
-                            </select>
+                            </select> -->
                         @endif
                     </div>
                 </div>
