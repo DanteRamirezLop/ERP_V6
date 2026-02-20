@@ -1354,7 +1354,7 @@ $(document).ready(function() {
     });
 
     $('#exchange_rate').change(function() {
-        var curr_exchange_rate = 1;
+        var curr_exchange_rate = 3.6;
         if ($(this).val()) {
             curr_exchange_rate = __read_number($(this));
         }
