@@ -14,7 +14,7 @@
                  aria-label="Print"><i class="fas fa-print"></i> @lang( 'messages.print' )
             </button>
             @auth
-                <a href="{{action([\App\Http\Controllers\SellController::class, 'index'])}}" class="tw-dw-btn tw-dw-btn-success tw-text-white no-print tw-dw-btn-sm" ><i class="fas fa-backward"></i>
+                <a href="{{action([\App\Http\Controllers\SellController::class, 'index'])}}" class="tw-dw-btn tw-dw-btn-success tw-text-white no-print tw-dw-btn-sm" >  <i class="fas fa-backward"></i>
                 </a>
             @endauth
         </div>
@@ -32,15 +32,21 @@
 </div>
 @stop
 @section('javascript')
+<style>
+    @media print {
+        .no-print { display: none !important; }
+        .spacer { display: none !important; }
+    }
+</style>
 <script type="text/javascript">
     $(document).ready(function(){
         $(document).on('click', '#print_invoice', function(){
-            $('#invoice_content').printThis();
+            window.print();
         });
     });
     @if(!empty(request()->input('print_on_load')))
         $(window).on('load', function(){
-            $('#invoice_content').printThis();
+            window.print();
         });
     @endif
 </script>
