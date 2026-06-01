@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', __('crm::lang.proposal'))
 @section('content')
-	@include('crm::layouts.nav')
+	@include('crm::layouts.nav') 
 	<!-- Content Header (Page header) -->
 	<section class="content-header no-print">
 	   <h1>

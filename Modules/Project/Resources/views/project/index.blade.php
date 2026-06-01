@@ -2,13 +2,15 @@
 @section('title', __('project::lang.project'))
 
 @section('content')
-@include('project::layouts.nav')
+@include('project::layouts.nav') 
+
 <section class="content-header">
-	<h1>
-    	@lang('project::lang.projects')
-    	<small> @lang('project::lang.all_projects')</small>
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+        @lang('project::lang.projects')
+        <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold"> @lang('project::lang.projects')</small>
     </h1>
 </section>
+
 <!-- Main content -->
 <section class="content">
     @if($project_view == 'list_view')

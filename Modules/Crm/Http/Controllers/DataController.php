@@ -169,21 +169,45 @@ class DataController extends Controller
                                 __('crm::lang.campaigns'),
                                 ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'campaigns']
                             );
-                            $sub->url(
-                                action([\Modules\Crm\Http\Controllers\CallLogController::class, 'index']),
-                                __('crm::lang.call_log'),
-                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'call-log']
-                            );
-                            $sub->url(
-                                action([\Modules\Crm\Http\Controllers\ProposalController::class, 'index']),
-                                __('crm::lang.proposals'),
-                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'proposals']
-                            );
-                            $sub->url(
+
+                             $sub->url(
                                 action([\Modules\Crm\Http\Controllers\ReportController::class, 'index']),
                                 __('crm::lang.reports'),
                                 ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'reports']
                             );
+
+                             $sub->url(
+                                action([\Modules\Crm\Http\Controllers\ProposalTemplateController::class, 'index']),
+                                __('crm::lang.proposal_template'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'proposal-template']
+                            );
+
+                             $sub->url(
+                                action([\Modules\Crm\Http\Controllers\ProposalController::class, 'index']),
+                                __('crm::lang.proposals'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'proposals']
+                            );
+
+                      
+
+                           
+                           
+                            $sub->url(
+                                action([\App\Http\Controllers\TaxonomyController::class, 'index']) . '?type=source',
+                                __('crm::lang.sources'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'taxonomies' && request()->get('type') == 'source']
+                            );
+                            $sub->url(
+                                action([\App\Http\Controllers\TaxonomyController::class, 'index']) . '?type=life_stage',
+                                __('crm::lang.life_stages'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'taxonomies' && request()->get('type') == 'life_stage']
+                            );
+                            $sub->url(
+                                action([\App\Http\Controllers\TaxonomyController::class, 'index']) . '?type=followup_category',
+                                __('crm::lang.followup_category'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'taxonomies' && request()->get('type') == 'followup_category']
+                            );
+                           
                             $sub->url(
                                 action([\Modules\Crm\Http\Controllers\CrmSettingsController::class, 'index']),
                                 __('crm::lang.settings'),
@@ -191,10 +215,7 @@ class DataController extends Controller
                             );
                         },
                         [
-                            'icon' => '<svg aria-hidden="true" class="tw-size-5 tw-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M22 12h-4l-3 9l-4 -18l-3 9h-4"></path>
-                            </svg>',
+                            'icon' => '<svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-building-broadcast-tower"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0" /><path d="M16.616 13.924a5 5 0 1 0 -9.23 0" /><path d="M20.307 15.469a9 9 0 1 0 -16.615 0" /><path d="M9 21l3 -9l3 9" /><path d="M10 19h4" /></svg>',
                             'active' => request()->segment(1) == 'crm',
                             'style' => config('app.env') == 'demo' ? 'background-color: #8CAFD4;' : '',
                         ]

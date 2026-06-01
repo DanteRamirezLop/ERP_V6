@@ -6,6 +6,4 @@
 		</button>
 	</div>
 </div>
-<div class="table-responsive followup_timeline">
-
-</div>
+<div class="table-responsive followup_timeline"></div>

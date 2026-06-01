@@ -125,12 +125,37 @@ class DataController extends Controller
             Menu::modify(
                 'admin-sidebar-menu',
                 function ($menu) {
-                    $menu->url(
-                        action([\Modules\Project\Http\Controllers\ProjectController::class, 'index']).'?project_view=list_view',
+                    $menu->dropdown(
                         __('project::lang.project'),
-                        ['icon' => 'fa fa-project-diagram', 'active' => request()->segment(1) == 'project' || request()->get('type') == 'project', 'style' => config('app.env') == 'demo' ? 'background-color: #e4186d !important;' : '']
-                    )
-                    ->order(86);
+                        function ($sub) {
+                            $sub->url(
+                                action([\Modules\Project\Http\Controllers\ProjectController::class, 'index']).'?project_view=list_view',
+                                __('project::lang.projects'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'project' && request()->segment(2) == 'project']
+                            );
+                            $sub->url(
+                                action([\Modules\Project\Http\Controllers\TaskController::class, 'index']),
+                                __('project::lang.tasks'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'project' && request()->segment(2) == 'project-task']
+                            );
+                            $sub->url(
+                                action([\Modules\Project\Http\Controllers\ReportController::class, 'index']),
+                                __('project::lang.project_report'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'project' && request()->segment(2) == 'project-reports']
+                            );
+
+                            $sub->url(
+                                  action([\App\Http\Controllers\TaxonomyController::class, 'index']). '?type=project',
+                                __('project::lang.project_categories'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'taxonomies' && request()->segment(2) == 'project']
+                            );
+                        },
+                        [
+                            'icon' => 'fas fa fa-project-diagram',
+                            'active' => request()->segment(1) == 'project',
+                            'style' => config('app.env') == 'demo' ? 'background-color: #e4186d !important;' : '',
+                        ]
+                    )->order(86);
                 }
             );
         }

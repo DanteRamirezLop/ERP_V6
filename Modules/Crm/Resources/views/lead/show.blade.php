@@ -3,7 +3,7 @@
 @section('title', __('crm::lang.view_lead'))
 
 @section('content')
-@include('crm::layouts.nav')
+@include('crm::layouts.nav') 
 <section class="content no-print">
     <div class="row no-print">
         <div class="col-md-4">

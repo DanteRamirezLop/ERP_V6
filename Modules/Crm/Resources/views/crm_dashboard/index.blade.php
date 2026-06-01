@@ -6,6 +6,13 @@
 
 @include('crm::layouts.nav')
 
+<section class="content-header">
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+        {{__('crm::lang.crm_dashboard')}}
+        <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold">{{__('crm::lang.crm')}}</small>
+    </h1>
+</section>
+
 <section class="content no-print">
     <div class="row">
         <div class="col-md-4">

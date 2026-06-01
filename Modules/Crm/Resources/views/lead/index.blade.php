@@ -3,10 +3,14 @@
 @section('title', __('crm::lang.lead'))
 
 @section('content')
-@include('crm::layouts.nav')
+@include('crm::layouts.nav') 
 <!-- Content Header (Page header) -->
-<section class="content-header no-print">
-   <h1>@lang('crm::lang.leads')</h1>
+
+<section class="content-header">
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+       @lang('crm::lang.leads')
+        <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold">{{__('crm::lang.crm')}}</small>
+    </h1>
 </section>
 
 <section class="content no-print">

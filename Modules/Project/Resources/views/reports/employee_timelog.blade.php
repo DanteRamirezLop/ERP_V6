@@ -2,15 +2,15 @@
 @section('title', __('project::lang.project_report'))
 
 @section('content')
-@include('project::layouts.nav')
+@include('project::layouts.nav') 
 <section class="content-header">
-    <h1>
-        @lang('report.reports')
-        <small>
-            @lang('project::lang.time_logs') @lang('project::lang.by_employees')
-        </small>
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+       @lang('report.reports')
+        <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold">   @lang('project::lang.time_logs') @lang('project::lang.by_employees') </small>
     </h1>
 </section>
+
+
 <section class="content">
     @component('components.filters', ['title' => __('report.filters')])
 		<div class="row">
