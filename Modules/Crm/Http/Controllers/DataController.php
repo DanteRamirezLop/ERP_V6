@@ -146,14 +146,61 @@ class DataController extends Controller
             Menu::modify(
                 'admin-sidebar-menu',
                 function ($menu) {
-                    $menu->url(action([\Modules\Crm\Http\Controllers\CrmDashboardController::class, 'index']), __('crm::lang.crm'), ['icon' => 'fas fa fa-broadcast-tower', 'style' => config('app.env') == 'demo' ? 'background-color: #8CAFD4;' : '', 'active' => request()->segment(1) == 'crm' || request()->get('type') == 'life_stage' || request()->get('type') == 'source'])->order(86);
+                    $menu->dropdown(
+                        __('crm::lang.crm'),
+                        function ($sub) {
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\CrmDashboardController::class, 'index']),
+                                __('crm::lang.crm_dashboard'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'dashboard']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\LeadController::class, 'index']),
+                                __('crm::lang.leads'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'leads']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'index']),
+                                __('crm::lang.follow_ups'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'follow-ups']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\CampaignController::class, 'index']),
+                                __('crm::lang.campaigns'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'campaigns']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\CallLogController::class, 'index']),
+                                __('crm::lang.call_log'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'call-log']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\ProposalController::class, 'index']),
+                                __('crm::lang.proposals'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'proposals']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\ReportController::class, 'index']),
+                                __('crm::lang.reports'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'reports']
+                            );
+                            $sub->url(
+                                action([\Modules\Crm\Http\Controllers\CrmSettingsController::class, 'index']),
+                                __('crm::lang.settings'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'settings']
+                            );
+                        },
+                        [
+                            'icon' => '<svg aria-hidden="true" class="tw-size-5 tw-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M22 12h-4l-3 9l-4 -18l-3 9h-4"></path>
+                            </svg>',
+                            'active' => request()->segment(1) == 'crm',
+                            'style' => config('app.env') == 'demo' ? 'background-color: #8CAFD4;' : '',
+                        ]
+                    )->order(86);
                 }
             );
-
-            //TODO: uncomment this query in 3-4 months and comment below queries.
-            // $crm_settings = Business::where('id', auth()->user()->business_id)
-            //                     ->value('crm_settings');
-            // $crm_settings = !empty($crm_settings) ? json_decode($crm_settings, true) : [];
 
             $business = Business::find(auth()->user()->business_id);
             $crm_settings = ! empty($business->crm_settings) ? json_decode($business->crm_settings, true) : [];

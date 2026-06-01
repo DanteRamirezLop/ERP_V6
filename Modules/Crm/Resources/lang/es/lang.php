@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'crm' => 'Crm',
+    'crm' => 'CRM',
+    'crm_dashboard' => 'Panel CRM',
+    'reports' => 'Reportes',
+    'settings' => 'Configuración',
     'add_login' => 'Agregar inicio de sesión',
     'edit_login' => 'Editar inicio de sesión',
     'schedules' => 'Horarios',

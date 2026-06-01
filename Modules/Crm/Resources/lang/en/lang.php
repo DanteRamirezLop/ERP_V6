@@ -2,6 +2,9 @@
 
 return [
     'crm' => 'CRM',
+    'crm_dashboard' => 'CRM Dashboard',
+    'reports' => 'Reports',
+    'settings' => 'Settings',
     'add_login' => 'Add Login',
     'edit_login' => 'Edit Login',
     'schedules' => 'Schedules',

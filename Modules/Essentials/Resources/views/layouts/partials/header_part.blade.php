@@ -2,7 +2,7 @@
 @if($__is_essentials_enabled && $is_employee_allowed) 
     <button 
         type="button" 
-        class=" md:tw-inline-flex tw-items-center tw-ring-1 tw-ring-white/10 tw-justify-center tw-text-sm tw-font-medium tw-text-white hover:tw-text-white tw-transition-all tw-duration-200 tw-bg-primary-800 hover:tw-bg-primary-700 tw-p-1.5 tw-rounded-lg clock_in_btn
+        class=" md:tw-inline-flex tw-items-center tw-ring-1 tw-ring-white/10 tw-justify-center tw-text-sm tw-font-medium tw-text-white hover:tw-text-white tw-transition-all tw-duration-200  hover:tw-bg-primary-700 tw-p-1.5 tw-rounded-lg clock_in_btn
         @if(!empty($clock_in))
             hide
         @endif"
@@ -19,7 +19,7 @@
 
     <button 
         type="button" 
-        class="clock_out_btn tw-inline-flex tw-items-center tw-justify-center tw-text-sm tw-font-medium tw-text-white tw-transition-all tw-duration-200 tw-bg-primary-800 hover:tw-bg-primary-700 tw-py-2 tw-px-3 tw-rounded-lg tw-ring-1 tw-ring-white/10 hover:tw-text-white
+        class="clock_out_btn tw-inline-flex tw-items-center tw-justify-center tw-text-sm tw-font-medium tw-text-white tw-transition-all tw-duration-200  hover:tw-bg-primary-700 tw-py-2 tw-px-3 tw-rounded-lg tw-ring-1 tw-ring-white/10 hover:tw-text-white
 		bg-yellow clock_out_btn
         @if(empty($clock_in))
             hide
