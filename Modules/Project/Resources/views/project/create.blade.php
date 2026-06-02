@@ -32,7 +32,7 @@
                    </div>
                 </div> 
                 <div class="col-md-6">
-                                            <strong>@lang('lang_v1.billing_address'):</strong>
+                    <strong>@lang('lang_v1.billing_address'):</strong>
                     <small>
                         <div id="project_billing_address_div"></div>
                     </small>

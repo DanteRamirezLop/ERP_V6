@@ -132,6 +132,12 @@ $(document).on('click', '.add_new_customer_project', function() {
 $(document).on('hidden.bs.modal', '.contact_modal', function() {
     $('form#quick_add_contact').find('button[type="submit"]').removeAttr('disabled');
     $('form#quick_add_contact')[0].reset();
+
+    // Bootstrap 3 removes modal-open from body when ANY modal closes.
+    // If the project modal is still open, restore it so scroll keeps working.
+    if ($('#project_model').hasClass('in')) {
+        $('body').addClass('modal-open');
+    }
 });
 
 // handle quick add contact form for project module
@@ -825,6 +831,37 @@ function getProjectList(url = '') {
 $(document).on('click', '.load_more_project', function() {
     var url = $(this).data('href');
     getProjectList(url);
+});
+
+// inline status update from project index card
+$(document).on('change', '.project_status_inline', function() {
+    var $select = $(this);
+    var projectId = $select.data('project-id');
+    var newStatus = $select.val();
+    var previousStatus = $select.data('current');
+
+    $.ajax({
+        method: 'PUT',
+        url: '/project/project/' + projectId + '/post-status',
+        data: {
+            status: newStatus,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(result) {
+            if (result.success) {
+                $select.data('current', newStatus);
+                $select.removeClass().addClass('project_status_inline status-' + newStatus);
+                toastr.success(result.msg);
+            } else {
+                $select.val(previousStatus);
+                toastr.error(result.msg);
+            }
+        },
+        error: function() {
+            $select.val(previousStatus);
+            toastr.error(LANG.something_went_wrong);
+        }
+    });
 });
 
 /**

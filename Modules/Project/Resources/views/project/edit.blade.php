@@ -17,6 +17,14 @@
                         {!! Form::text('name', $project->name, ['class' => 'form-control', 'required' ]) !!}
                    </div>
                 </div>
+
+                <div class="col-md-12">
+                   <div class="form-group">
+                        {!! Form::label('contact_id', __('role.customer') . ':' )!!}
+                        {!! Form::select('contact_id', $customers, $project->contact_id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
+                   </div>
+                </div>
+
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -27,19 +35,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                   <div class="form-group">
-                        {!! Form::label('contact_id', __('role.customer') . ':' )!!}
-                        {!! Form::select('contact_id', $customers, $project->contact_id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
-                   </div>
-                </div>
-                <div class="col-md-4">
+                
+                <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('status', __('sale.status') .':*') !!}
                         {!! Form::select('status', $statuses, $project->status, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('lead_id', __('project::lang.lead') .':*') !!}
                         {!! Form::select('lead_id', $users, $project->lead_id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}

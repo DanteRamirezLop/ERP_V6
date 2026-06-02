@@ -95,6 +95,8 @@
 								    @endif
 								  </ul>
 							</div>
+
+							
 						</div>
 						<!-- /.box-tools -->
 					</div>
@@ -102,9 +104,9 @@
 					<div class="box-body">
 						<div class="row">
 							<div class="col-md-8">
-								@if(isset($project->customer->name))
+								@if($project->customer)
 									<i class="fa fa-briefcase"></i>
-									{{$project->customer->name}}
+									{{ $project->customer->supplier_business_name ?: $project->customer->name }}
 								@endif <br>
 								<i class="fas fa-user-tie"></i>
 								@lang('project::lang.lead'):
@@ -112,7 +114,15 @@
 								<br>
 								<i class="fas fa-check-circle"></i>
 								@lang('sale.status'):
-								@lang('project::lang.'.$project->status)
+								@can('project.edit_project')
+									<select class="project_status_inline status-{{ $project->status }}" data-project-id="{{ $project->id }}" data-current="{{ $project->status }}">
+										@foreach($statuses as $key => $value)
+											<option value="{{ $key }}" {{ $project->status == $key ? 'selected' : '' }}>{{ $value }}</option>
+										@endforeach
+									</select>
+								@else
+									@lang('project::lang.'.$project->status)
+								@endcan
 								<br>
 								@if(isset($project->start_date))
 								<i class="fas fa-calendar-check"></i>

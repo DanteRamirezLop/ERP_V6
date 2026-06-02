@@ -85,30 +85,33 @@
 		<div class="box-body">
 			<div class="row">
 				@if($project_view == 'list_view')
-					<div class="col-md-3 project_status_filter">
+					<div class="col-md-4 project_status_filter">
 					    <div class="form-group">
 					        {!! Form::label('project_status_filter', __('sale.status') . ':') !!}
 					        {!! Form::select('project_status_filter', $statuses, null, ['class' => 'form-control select2', 'placeholder' => __('messages.all'), 'style' => 'width: 100%;']); !!}
 					    </div>
 					</div>
 				@endif
-				<div class="col-md-3">
+			
+				<div class="col-md-4">
 				    <div class="form-group">
 				        {!! Form::label('project_end_date_filter', __('project::lang.end_date') . ':') !!}
 				        {!! Form::select('project_end_date_filter', $due_dates, null, ['class' => 'form-control select2', 'placeholder' => __('messages.all'), 'style' => 'width: 100%;']); !!}
 				    </div>
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-4">
 					<div class="form-group">
 						{!! Form::label('project_categories_filter', __('project::lang.category') . ':') !!}
 						{!! Form::select('project_categories_filter', $categories, null, ['class' => 'form-controll select2', 'placeholder' => __('messages.all'), 'style' => 'width:100%;']); !!}
 					</div>
 				</div>
 			</div>
+
 			@if($project_view == 'list_view')
 				<div class="project_html">
 				</div>
 			@endif
+			
 			<!-- project kanban -->
 			@if($project_view == 'kanban')
 				<div class="project-kanban-board">

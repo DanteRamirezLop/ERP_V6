@@ -124,7 +124,7 @@ class ProjectController extends Controller
 
                     //dynamically render projects
                     $projects_html = view('project::project.partials.index')
-                    ->with(compact('projects'))
+                    ->with(compact('projects', 'statuses'))
                     ->render();
                 } elseif ($project_view == 'kanban') {
                     $projects = $projects->get()->groupBy('status');
