@@ -115,9 +115,9 @@
 								<i class="fas fa-check-circle"></i>
 								@lang('sale.status'):
 								@can('project.edit_project')
-									<select class="project_status_inline status-{{ $project->status }}" data-project-id="{{ $project->id }}" data-current="{{ $project->status }}">
+									<select class="project_status_inline status-{{ $project->status }} btn-white tw-border tw-rounded-md tw-p-0.5" data-project-id="{{ $project->id }}" data-current="{{ $project->status }}">
 										@foreach($statuses as $key => $value)
-											<option value="{{ $key }}" {{ $project->status == $key ? 'selected' : '' }}>{{ $value }}</option>
+											<option value="{{ $key }}" {{ $project->status == $key ? 'selected' : '' }}> {{ $value }} </option>
 										@endforeach
 									</select>
 								@else

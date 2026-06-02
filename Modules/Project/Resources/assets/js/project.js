@@ -840,8 +840,6 @@ $(document).on('change', '.project_status_inline', function() {
     var newStatus = $select.val();
     var previousStatus = $select.data('current');
 
-    console.log('Change status');
-
     $.ajax({
         method: 'PUT',
         url: '/project/project/' + projectId + '/post-status',
