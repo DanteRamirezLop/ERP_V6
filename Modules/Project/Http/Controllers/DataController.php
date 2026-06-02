@@ -126,7 +126,7 @@ class DataController extends Controller
                 'admin-sidebar-menu',
                 function ($menu) {
                     $menu->dropdown(
-                        __('project::lang.project'),
+                        __('project::lang.projects'),
                         function ($sub) {
                             $sub->url(
                                 action([\Modules\Project\Http\Controllers\ProjectController::class, 'index']).'?project_view=list_view',

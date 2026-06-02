@@ -17,6 +17,26 @@
                         {!! Form::text('name', null, ['class' => 'form-control', 'required' ]) !!}
                    </div>
                 </div>
+                <div class="col-md-6">
+                   <div class="form-group">
+                        {!! Form::label('contact_id', __('role.customer') . ':' )!!}
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="fa fa-user"></i>
+                            </span>
+                            {!! Form::select('contact_id', [], null, ['class' => 'form-control', 'id' => 'project_customer_id', 'placeholder' => 'Enter Customer name / phone', 'style' => 'width: 100%;']); !!}
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-default bg-white btn-flat add_new_customer_project" data-name=""><i class="fa fa-plus-circle text-primary fa-lg"></i></button>
+                            </span>
+                        </div>
+                   </div>
+                </div> 
+                <div class="col-md-6">
+                                            <strong>@lang('lang_v1.billing_address'):</strong>
+                    <small>
+                        <div id="project_billing_address_div"></div>
+                    </small>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
@@ -27,19 +47,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
-                   <div class="form-group">
-                        {!! Form::label('contact_id', __('role.customer') . ':' )!!}
-                        {!! Form::select('contact_id', $customers, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'style' => 'width: 100%;']); !!}
-                   </div>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('status', __('sale.status') .':*') !!}
                         {!! Form::select('status', $statuses, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="form-group">
                         {!! Form::label('lead_id', __('project::lang.lead') .':*') !!}
                         {!! Form::select('lead_id', $users, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}

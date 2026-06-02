@@ -30,12 +30,13 @@ $(document).on('click', '.edit_a_project', function() {
 
 //initialize ck editor, date picker and form validation when model is opened
 $('#project_model').on('shown.bs.modal', function (e) {
+    var $modal = $(this);
 
     $('form#project_form .datepicker').datepicker({
         autoclose: true,
         format:datepicker_date_format
     });
-    
+
     //initialize editor
     tinymce.init({
         selector: 'textarea#description',
@@ -44,10 +45,126 @@ $('#project_model').on('shown.bs.modal', function (e) {
     $(".select2").select2();
     //form validation
     $("form#project_form").validate();
+
+    // destroy previous instance if exists, then init fresh
+    var $customerSelect = $('select#project_customer_id');
+    if ($customerSelect.length) {
+        if ($customerSelect.data('select2')) {
+            $customerSelect.select2('destroy');
+        }
+        $customerSelect.select2({
+            dropdownParent: $modal,
+            placeholder: 'Enter Customer name / phone',
+            allowClear: true,
+            ajax: {
+                url: '/contacts/customers',
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return { q: params.term, page: params.page };
+                },
+                processResults: function(data) {
+                    return { results: data };
+                },
+            },
+            templateResult: function(data) {
+                if (!data.id) { return data.text; }
+                var template = '';
+                if (data.supplier_business_name) {
+                    template += data.supplier_business_name + '<br>';
+                }
+                template += data.text + '<br>' + LANG.mobile + ': ' + data.mobile;
+                return template;
+            },
+            minimumInputLength: 1,
+            escapeMarkup: function(markup) { return markup; },
+            language: {
+                inputTooShort: function(args) {
+                    return LANG.please_enter + args.minimum + LANG.or_more_characters;
+                },
+                noResults: function() {
+                    var searchInput = $modal.find('.select2-search__field');
+                    var name = searchInput.length ? searchInput.val() : '';
+                    return '<button type="button" data-name="' + name + '" class="btn btn-link add_new_customer_project"><i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>&nbsp; ' + name + '</button>';
+                },
+            },
+        });
+    }
 });
 
 $('#project_model').on('hidden.bs.modal', function(){
     tinymce.remove("textarea#description");
+    var $customerSelect = $('select#project_customer_id');
+    if ($customerSelect.length && $customerSelect.data('select2')) {
+        $customerSelect.select2('destroy');
+    }
+});
+
+// update billing address when a customer is selected
+$(document).on('select2:select', '#project_customer_id', function(e) {
+    var data = e.params.data;
+    var parts = [];
+    if (data.supplier_business_name) { parts.push(data.supplier_business_name); }
+    if (data.text)                   { parts.push(data.text); }
+    if (data.address_line_1)         { parts.push(data.address_line_1); }
+    if (data.address_line_2)         { parts.push(data.address_line_2); }
+    if (data.city)                   { parts.push(data.city); }
+    if (data.state)                  { parts.push(data.state); }
+    if (data.country)                { parts.push(data.country); }
+    if (data.zip_code)               { parts.push(data.zip_code); }
+    $('#project_billing_address_div').html(parts.join('<br>'));
+});
+
+$(document).on('select2:clear', '#project_customer_id', function() {
+    $('#project_billing_address_div').html('');
+});
+
+// open contact modal to add new customer from project form
+$(document).on('click', '.add_new_customer_project', function() {
+    $('select#project_customer_id').select2('close');
+    var name = $(this).data('name');
+    $('.contact_modal').find('input#name').val(name);
+    $('.contact_modal').find('select#contact_type').val('customer').closest('div.contact_type_div').addClass('hide');
+    $('.contact_modal').modal('show');
+});
+
+// reset contact modal form on close
+$(document).on('hidden.bs.modal', '.contact_modal', function() {
+    $('form#quick_add_contact').find('button[type="submit"]').removeAttr('disabled');
+    $('form#quick_add_contact')[0].reset();
+});
+
+// handle quick add contact form for project module
+// jQuery Validate automatically adds novalidate and ignores hidden fields
+$('form#quick_add_contact').validate({
+    ignore: ':hidden',
+    submitHandler: function(form) {
+        __disable_submit_button($(form).find('button[type="submit"]'));
+        var data = $(form).serialize();
+        $.ajax({
+            method: 'POST',
+            url: $(form).attr('action'),
+            dataType: 'json',
+            data: data,
+            success: function(result) {
+                if (result.success == true) {
+                    var name = result.data.name;
+                    if (result.data.supplier_business_name) {
+                        name += ' ' + result.data.supplier_business_name;
+                    }
+                    $('select#project_customer_id').append(
+                        $('<option>', { value: result.data.id, text: name })
+                    );
+                    $('select#project_customer_id').val(result.data.id).trigger('change');
+                    $('div.contact_modal').modal('hide');
+                    toastr.success(result.msg);
+                } else {
+                    toastr.error(result.msg);
+                    $(form).find('button[type="submit"]').removeAttr('disabled');
+                }
+            },
+        });
+    },
 });
 
 //project form submit

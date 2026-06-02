@@ -3,6 +3,7 @@
 namespace Modules\Project\Http\Controllers;
 
 use App\Contact;
+use App\CustomerGroup;
 use App\User;
 use App\Utils\ModuleUtil;
 use App\Utils\Util;
@@ -19,6 +20,8 @@ use Modules\Project\Entities\ProjectTask;
 use Modules\Project\Entities\ProjectTimeLog;
 use Modules\Project\Entities\ProjectTransaction;
 use Modules\Project\Utils\ProjectUtil;
+
+
 
 class ProjectController extends Controller
 {
@@ -265,9 +268,21 @@ class ProjectController extends Controller
 
         $due_dates = ProjectTask::dueDatesDropdown();
         $categories = ProjectCategory::forDropdown($business_id, 'project');
+        $customer_groups = CustomerGroup::forDropdown($business_id);
+
+        $types = [];
+        if (auth()->user()->can('supplier.create')) {
+            $types['supplier'] = __('report.supplier');
+        }
+        if (auth()->user()->can('customer.create')) {
+            $types['customer'] = __('report.customer');
+        }
+        if (auth()->user()->can('supplier.create') && auth()->user()->can('customer.create')) {
+            $types['both'] = __('lang_v1.both_supplier_customer');
+        }
 
         return view('project::project.index')
-            ->with(compact('statuses', 'due_dates', 'project_stats', 'categories', 'project_view'));
+            ->with(compact('types', 'customer_groups', 'statuses', 'due_dates', 'project_stats', 'categories', 'project_view'));
     }
 
     /**
@@ -288,6 +303,7 @@ class ProjectController extends Controller
         $statuses = Project::statusDropdown();
         $categories = ProjectCategory::forDropdown($business_id, 'project');
 
+       
         return view('project::project.create')
             ->with(compact('users', 'customers', 'statuses', 'categories'));
     }
