@@ -119,6 +119,8 @@ return [
     'email_new_project_subject' => 'Nuevo proyecto de instalación',
     'email_new_project_greeting' => 'Hola!',
     'email_new_project_line1' => 'Hay una nueva instalación y usted ha sido incluido como miembro.',
+    'email_new_project_project_name' => 'Nombre del proyecto: :project',
+    'email_new_project_status' => 'Estado del proyecto: :status',
     'email_new_project_action' => 'Ver instalación',
     'email_new_project_line2' => 'Gracias por formar parte del equipo!',
 ];
