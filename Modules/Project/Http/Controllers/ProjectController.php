@@ -353,9 +353,6 @@ class ProjectController extends Controller
             $categories = $request->input('category_id');
             $project->categories()->sync($categories);
 
-
-            \Log::info('Envio de mensaje hasta aquí');
-
             // send notification to project members
             if (! empty($project_members['attached'])) {
                 //check if user is a creator then don't notify him
@@ -378,6 +375,7 @@ class ProjectController extends Controller
                 $project['created_by_name'] = $request->user()->user_full_name;
 
                 $send_email = $request->input('notify_by_email') == '1';
+
                 $this->projectUtil->notifyUsersAboutAssignedProject($project_members['attached'], $project, $send_email);
             }
 

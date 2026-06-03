@@ -116,9 +116,9 @@ return [
 
     'notify_members_by_email' => 'Notificar a los miembros por mail',
     'notify_members_by_email_help' => 'Se enviará un correo electrónico a cada miembro informándole que se ha creado una instalación y que está incluido.',
-    'email_new_project_subject' => 'Installation facility created project',
+    'email_new_project_subject' => 'Nuevo proyecto de instalación',
     'email_new_project_greeting' => 'Hola!',
-    'email_new_project_line1' => 'has created a new installation facility and you have been included as a member.',
+    'email_new_project_line1' => 'Hay una nueva instalación y usted ha sido incluido como miembro.',
     'email_new_project_action' => 'Ver instalación',
     'email_new_project_line2' => 'Gracias por formar parte del equipo!',
 ];
