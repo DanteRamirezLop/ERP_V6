@@ -37,8 +37,6 @@ class NewProjectAssignedNotification extends Notification
     {
         $subject = __('project::lang.email_new_project_subject', ['project' => $this->project->name]);
 
-        $statusLabel = \Modules\Project\Entities\Project::statusDropdown()[$this->project->status] ?? $this->project->status;
-
         return (new MailMessage)
             ->subject($subject)
             ->greeting(__('project::lang.email_new_project_greeting'))
@@ -50,7 +48,6 @@ class NewProjectAssignedNotification extends Notification
                 ]
             ))
             ->line(__('project::lang.email_new_project_project_name', ['project' => $this->project->name]))
-            ->line(__('project::lang.email_new_project_status', ['status' => $statusLabel]))
             ->action(__('project::lang.email_new_project_action'), $this->project->link)
             ->line(__('project::lang.email_new_project_line2'));
     }
