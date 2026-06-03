@@ -11,52 +11,46 @@ class NewProjectAssignedNotification extends Notification
 {
     use Queueable;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct($project)
+    protected $project;
+    protected $send_email;
+
+    public function __construct($project, $send_email = false)
     {
         $this->project = $project;
+        $this->send_email = $send_email;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
         $channels = ['database'];
         if (isPusherEnabled()) {
             $channels[] = 'broadcast';
         }
+        if ($this->send_email) {
+            $channels[] = 'mail';
+        }
 
         return $channels;
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
     public function toMail($notifiable)
     {
+        $subject = __('project::lang.email_new_project_subject', ['project' => $this->project->name]);
+
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', 'https://laravel.com')
-                    ->line('Thank you for using our application!');
+            ->subject($subject)
+            ->greeting(__('project::lang.email_new_project_greeting'))
+            ->line(__(
+                'project::lang.email_new_project_line1',
+                [
+                    'created_by' => $this->project->created_by_name ?? '',
+                    'project'    => $this->project->name,
+                ]
+            ))
+            ->action(__('project::lang.email_new_project_action'), $this->project->link)
+            ->line(__('project::lang.email_new_project_line2'));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [
@@ -64,18 +58,12 @@ class NewProjectAssignedNotification extends Notification
         ];
     }
 
-    /**
-     * Get the broadcastable representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return BroadcastMessage
-     */
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
             'title' => $this->project->title,
-            'body' => $this->project->body,
-            'link' => $this->project->link,
+            'body'  => $this->project->body,
+            'link'  => $this->project->link,
         ]);
     }
 }

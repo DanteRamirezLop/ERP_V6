@@ -113,4 +113,11 @@ return [
     'by_projects' => 'By Facility',
     'by_employees' => 'By Employee',
     'task_id_prefix' => 'Task Id Prefix',
+    'notify_members_by_email' => 'Notify members by email',
+    'notify_members_by_email_help' => 'An email will be sent to each member informing them that an installations facility has been created and they are included.',
+    'email_new_project_subject' => 'Installation facility created: :project',
+    'email_new_project_greeting' => 'Hello!',
+    'email_new_project_line1' => ':created_by has created a new installation facility ":project" and you have been included as a member.',
+    'email_new_project_action' => 'View Facility',
+    'email_new_project_line2' => 'Thank you for being part of our team!',
 ];

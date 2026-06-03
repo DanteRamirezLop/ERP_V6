@@ -97,7 +97,7 @@
                             <div class="form-group checkbox-inline">
                                 <label>
                                     {!! Form::checkbox('notify_via[mail]', 1, true, ['class' => 'input-icheck']); !!}
-                                    @lang('business.email')
+                                    @lang('business.email') 
                                 </label>
                             </div>
                         </div>

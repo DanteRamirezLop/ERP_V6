@@ -372,8 +372,10 @@ class ProjectController extends Controller
                     ]
                 );
                 $project['link'] = action([\Modules\Project\Http\Controllers\ProjectController::class, 'show'], [$project->id]);
+                $project['created_by_name'] = $request->user()->user_full_name;
 
-                $this->projectUtil->notifyUsersAboutAssignedProject($project_members['attached'], $project);
+                $send_email = $request->input('notify_by_email') == '1';
+                $this->projectUtil->notifyUsersAboutAssignedProject($project_members['attached'], $project, $send_email);
             }
 
             DB::commit();

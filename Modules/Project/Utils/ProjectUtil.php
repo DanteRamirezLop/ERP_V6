@@ -66,11 +66,11 @@ class ProjectUtil extends Util
      *
      * @return \Illuminate\Http\Response
      */
-    public function notifyUsersAboutAssignedProject($members, $project)
+    public function notifyUsersAboutAssignedProject($members, $project, $send_email = false)
     {
         if (! empty($members)) {
             $notifiable_users = User::find($members);
-            Notification::send($notifiable_users, new NewProjectAssignedNotification($project));
+            Notification::send($notifiable_users, new NewProjectAssignedNotification($project, $send_email));
         }
     }
 

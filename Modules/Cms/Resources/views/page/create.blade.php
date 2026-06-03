@@ -93,6 +93,7 @@
                                 {!! Form::number('priority', null, ['class' => 'form-control' ]) !!}
                             </div>
                         </div>
+                      
                         <div class="col-md-12">
                             <div class="form-group">
                                 <br>
