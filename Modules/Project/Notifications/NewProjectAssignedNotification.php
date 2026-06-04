@@ -2,6 +2,7 @@
 
 namespace Modules\Project\Notifications;
 
+use App\Utils\NotificationUtil;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -18,6 +19,10 @@ class NewProjectAssignedNotification extends Notification
     {
         $this->project = $project;
         $this->send_email = $send_email;
+
+        if ($send_email) {
+            (new NotificationUtil())->configureEmail();
+        }
     }
 
     public function via($notifiable)

@@ -71,6 +71,7 @@ class ProjectUtil extends Util
         if (! empty($members)) {
             $notifiable_users = User::find($members);
             Notification::send($notifiable_users, new NewProjectAssignedNotification($project, $send_email));
+            
             // if ($send_email) {
             //     $from_address = config('mail.from.address', '');
             //     $at_pos = strpos($from_address, '@');

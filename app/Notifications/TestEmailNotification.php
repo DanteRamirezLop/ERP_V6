@@ -44,8 +44,7 @@ class TestEmailNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-                    ->line('This is a test email');
+        return (new MailMessage)->line('This is a test email');
     }
 
     /**

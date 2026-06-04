@@ -576,13 +576,13 @@ class BusinessController extends Controller
             $email_settings = $request->input();
 
             $data['email_settings'] = $email_settings;
-            \Notification::route('mail', $email_settings['mail_from_address'])
-            ->notify(new TestEmailNotification($data));
+            \Notification::route('mail', $email_settings['mail_from_address'])->notify(new TestEmailNotification($data));
 
             $output = [
                 'success' => 1,
                 'msg' => __('lang_v1.email_tested_successfully'),
             ];
+            
         } catch (\Exception $e) {
             \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
             $output = [
