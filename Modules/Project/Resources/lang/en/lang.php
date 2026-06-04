@@ -121,5 +121,5 @@ return [
     'email_new_project_project_name' => 'Project name',
     'email_new_project_status' => 'Project status',
     'email_new_project_action' => 'View Facility',
-    'email_new_project_line2' => 'Thank you for being part of our team!'',
+    'email_new_project_line2' => 'Thank you for being part of our team!',
 ];
