@@ -29,9 +29,7 @@ class ProjectController extends Controller
      * All Utils instance.
      */
     protected $commonUtil;
-
     protected $projectUtil;
-
     protected $moduleUtil;
 
     /**
@@ -373,7 +371,6 @@ class ProjectController extends Controller
                 );
                 $project['link'] = action([\Modules\Project\Http\Controllers\ProjectController::class, 'show'], [$project->id]);
                 $project['created_by_name'] = $request->user()->user_full_name;
-
                 $send_email = $request->input('notify_by_email') == '1';
 
                 $this->projectUtil->notifyUsersAboutAssignedProject($project_members['attached'], $project, $send_email);
@@ -387,9 +384,7 @@ class ProjectController extends Controller
             ];
         } catch (Exception $e) {
             DB::rollBack();
-
             \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
-
             $output = [
                 'success' => false,
                 'msg' => __('messages.something_went_wrong'),

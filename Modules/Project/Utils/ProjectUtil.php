@@ -70,7 +70,30 @@ class ProjectUtil extends Util
     {
         if (! empty($members)) {
             $notifiable_users = User::find($members);
-            Notification::send($notifiable_users, new NewProjectAssignedNotification($project, $send_email));
+
+            if ($send_email) {
+                $from_address = config('mail.from.address', '');
+                $at_pos = strpos($from_address, '@');
+                $mail_domain = $at_pos !== false ? strtolower(substr($from_address, $at_pos + 1)) : null;
+
+                [$email_users, $no_email_users] = $notifiable_users->partition(function ($user) use ($mail_domain) {
+                    if (empty($mail_domain) || empty($user->email)) {
+                        return false;
+                    }
+                    $user_domain = strtolower(substr(strrchr($user->email, '@'), 1));
+
+                    return $user_domain === $mail_domain;
+                });
+
+                if ($email_users->isNotEmpty()) {
+                    Notification::send($email_users, new NewProjectAssignedNotification($project, true));
+                }
+                if ($no_email_users->isNotEmpty()) {
+                    Notification::send($no_email_users, new NewProjectAssignedNotification($project, false));
+                }
+            } else {
+                Notification::send($notifiable_users, new NewProjectAssignedNotification($project, false));
+            }
         }
     }
 
