@@ -66,7 +66,6 @@
                             {!! Form::select('followup_category_id', $followup_category, null, ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]); !!}
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('user_id', __('crm::lang.assgined') .':*') !!}

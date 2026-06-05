@@ -331,7 +331,15 @@ class DataController extends Controller
                 'sub_heading' => __('crm::lang.manage_followup_category'),
                 'enable_taxonomy_code' => false,
                 'enable_sub_taxonomy' => false,
-                //'heading_tooltip' => __('crm::lang.lifestage_of_leads'),
+                'navbar' => 'crm::layouts.nav',
+            ];
+
+            $output['schedule_priority'] = [
+                'taxonomy_label' => __('crm::lang.priority'),
+                'heading' => __('crm::lang.priority'),
+                'sub_heading' => __('crm::lang.manage_priority'),
+                'enable_taxonomy_code' => false,
+                'enable_sub_taxonomy' => false,
                 'navbar' => 'crm::layouts.nav',
             ];
         }

@@ -3,6 +3,7 @@
 namespace Modules\Crm\Http\Controllers;
 
 use App\Business;
+use App\Category;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -46,8 +47,14 @@ class CrmSettingsController extends Controller
 
         $crm_settings = $this->crmUtil->getCrmSettings($business_id);
 
+        $priorities = Category::where('business_id', $business_id)
+            ->where('category_type', 'schedule_priority')
+            ->where('parent_id', 0)
+            ->orderBy('name')
+            ->get();
+
         return view('crm::settings.index')
-                ->with(compact('crm_settings'));
+                ->with(compact('crm_settings', 'priorities'));
     }
 
     /**
