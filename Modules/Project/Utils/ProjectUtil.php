@@ -37,9 +37,7 @@ class ProjectUtil extends Util
      */
     public function isProjectLead($user_id, $project_id)
     {
-        $project = Project::where('lead_id', $user_id)
-                    ->find($project_id);
-
+        $project = Project::where('lead_id', $user_id)->find($project_id);
         return ! empty($project);
     }
 
@@ -54,8 +52,7 @@ class ProjectUtil extends Util
     {
         $project = Project::with(['members' => function ($query) use ($user_id) {
             $query->where('user_id', $user_id);
-        }])
-        ->find($project_id);
+        }])->find($project_id);
 
         return ! empty($project->members);
     }
@@ -71,30 +68,6 @@ class ProjectUtil extends Util
         if (! empty($members)) {
             $notifiable_users = User::find($members);
             Notification::send($notifiable_users, new NewProjectAssignedNotification($project, $send_email));
-            
-            // if ($send_email) {
-            //     $from_address = config('mail.from.address', '');
-            //     $at_pos = strpos($from_address, '@');
-            //     $mail_domain = $at_pos !== false ? strtolower(substr($from_address, $at_pos + 1)) : null;
-
-            //     [$email_users, $no_email_users] = $notifiable_users->partition(function ($user) use ($mail_domain) {
-            //         if (empty($mail_domain) || empty($user->email)) {
-            //             return false;
-            //         }
-            //         $user_domain = strtolower(substr(strrchr($user->email, '@'), 1));
-
-            //         return $user_domain === $mail_domain;
-            //     });
-
-            //     if ($email_users->isNotEmpty()) {
-            //         Notification::send($email_users, new NewProjectAssignedNotification($project, true));
-            //     }
-            //     if ($no_email_users->isNotEmpty()) {
-            //         Notification::send($no_email_users, new NewProjectAssignedNotification($project, false));
-            //     }
-            // } else {
-            //     Notification::send($notifiable_users, new NewProjectAssignedNotification($project, false));
-            // }
         }
     }
 
@@ -121,9 +94,7 @@ class ProjectUtil extends Util
     public function canMemberCrudTask($business_id, $user_id, $project_id)
     {
         $project = $this->getProject($business_id, $project_id);
-
         $is_member = $this->isProjectMember($user_id, $project_id);
-
         $can_crud_task = false;
         if ($is_member && (isset($project->settings['members_crud_task']) && $project->settings['members_crud_task'])) {
             $can_crud_task = true;
@@ -141,9 +112,7 @@ class ProjectUtil extends Util
     public function canMemberCrudNotes($business_id, $user_id, $project_id)
     {
         $project = $this->getProject($business_id, $project_id);
-
         $is_member = $this->isProjectMember($user_id, $project_id);
-
         $can_crud_docus_note = false;
         if ($is_member && (isset($project->settings['members_crud_note']) && $project->settings['members_crud_note'])) {
             $can_crud_docus_note = true;
@@ -161,7 +130,6 @@ class ProjectUtil extends Util
     public function canMemberCrudTimelog($business_id, $user_id, $project_id)
     {
         $project = $this->getProject($business_id, $project_id);
-
         $is_member = $this->isProjectMember($user_id, $project_id);
 
         $can_crud_timelog = false;
@@ -179,8 +147,7 @@ class ProjectUtil extends Util
      */
     public function getProject($business_id, $project_id)
     {
-        $project = Project::where('business_id', $business_id)
-                        ->find($project_id);
+        $project = Project::where('business_id', $business_id)->find($project_id);
 
         return $project;
     }

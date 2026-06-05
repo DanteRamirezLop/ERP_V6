@@ -106,6 +106,11 @@ class ProjectController extends Controller
                     });
                 }
 
+                // filter by contact/customer
+                if (! empty(request()->get('contact_id'))) {
+                    $projects->where('contact_id', request()->get('contact_id'));
+                }
+
                 if ($project_view == 'list_view') {
                     $projects = $projects->latest()
                                 ->simplePaginate(10);
@@ -266,6 +271,7 @@ class ProjectController extends Controller
 
         $due_dates = ProjectTask::dueDatesDropdown();
         $categories = ProjectCategory::forDropdown($business_id, 'project');
+        $customers = Contact::customersDropdown($business_id, false);
         $customer_groups = CustomerGroup::forDropdown($business_id);
 
         $types = [];
@@ -280,7 +286,7 @@ class ProjectController extends Controller
         }
 
         return view('project::project.index')
-            ->with(compact('types', 'customer_groups', 'statuses', 'due_dates', 'project_stats', 'categories', 'project_view'));
+            ->with(compact('types', 'customer_groups', 'customers', 'statuses', 'due_dates', 'project_stats', 'categories', 'project_view'));
     }
 
     /**

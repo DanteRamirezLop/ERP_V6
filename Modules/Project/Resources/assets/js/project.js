@@ -786,7 +786,7 @@ $(document).on('change', '.my_task_view', function() {
 });
 
 // on change project filter get project
-$(document).on('change', "#project_status_filter, #project_end_date_filter, #project_categories_filter", function(){
+$(document).on('change', "#project_status_filter, #project_end_date_filter, #project_categories_filter, #project_contact_filter", function(){
     
     var project_view = urlSearchParam('project_view');
 
@@ -804,6 +804,7 @@ function getProjectList(url = '') {
             'status' : $('#project_status_filter').val(),
             'end_date' : $('#project_end_date_filter').val(),
             'category_id' : $('#project_categories_filter').val(),
+            'contact_id' : $('#project_contact_filter').val(),
             'project_view' : project_view
         };
 
@@ -1194,6 +1195,7 @@ function getProjectListForKanban() {
     var data = {
         end_date : $('#project_end_date_filter').val(),
         category_id : $('#project_categories_filter').val(),
+        contact_id : $('#project_contact_filter').val(),
         project_view : project_view
     };
 

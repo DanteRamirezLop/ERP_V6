@@ -1,4 +1,5 @@
 <div class="row eq-height-row">
+
 	@if($projects->count() > 0)
 		@foreach($projects as $project)
 			<div class="col-md-4 eq-height-col">
@@ -177,6 +178,7 @@
             </div>
 		</div>
 	@endif
+	
 </div>
 @if($projects->nextPageUrl())
     <a data-href="{{$projects->nextPageUrl()}}" class="btn btn-block btn-sm btn-info load_more_project">
