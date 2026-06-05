@@ -2,12 +2,16 @@
 @section('title', __('project::lang.my_tasks'))
 @section('content')
 @include('project::layouts.nav')
+
+
 <section class="content-header">
-	<h3>
-		<i class="fa fa-tasks"></i>
-		@lang('project::lang.tasks')
-	</h3>
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
+      	@lang('project::lang.tasks')
+        <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold">  @lang('project::lang.projects') </small>
+    </h1>
 </section>
+
+
 <section class="content">
 	@component('components.filters', ['title' => __('report.filters')])
 		<div class="row">

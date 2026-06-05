@@ -75,7 +75,7 @@
 				    </label>
 				</div>
 				@can('project.create_project')
-					<button type="button" class="btn btn-primary btn-sm add_new_project" data-href="{{action([\Modules\Project\Http\Controllers\ProjectController::class, 'create'])}}">
+					<button type="button" class="tw-dw-btn tw-dw-btn-primary tw-text-white tw-dw-btn-sm add_new_project" data-href="{{action([\Modules\Project\Http\Controllers\ProjectController::class, 'create'])}}">
 						@lang('project::lang.new_project')&nbsp;
 						<i class="fa fa-plus"></i>
 					</button>
@@ -85,7 +85,7 @@
 		<div class="box-body">
 			<div class="row">
 				@if($project_view == 'list_view')
-					<div class="col-md-4 project_status_filter">
+					<div class="col-md-3 project_status_filter">
 					    <div class="form-group">
 					        {!! Form::label('project_status_filter', __('sale.status') . ':') !!}
 					        {!! Form::select('project_status_filter', $statuses, null, ['class' => 'form-control select2', 'placeholder' => __('messages.all'), 'style' => 'width: 100%;']); !!}
@@ -108,8 +108,8 @@
 
 				<div class="col-md-3"> 
 					<div class="form-group">
-						
-
+						{!! Form::label('project_contact_filter', __('contact.customer') . ':') !!}
+						{!! Form::select('project_contact_filter', $customers, null, ['id' => 'project_contact_filter', 'class' => 'form-control select2', 'placeholder' => __('messages.all'), 'style' => 'width: 100%;']); !!}
 					</div>
 				</div>
 			</div>

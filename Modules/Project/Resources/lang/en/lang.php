@@ -117,6 +117,7 @@ return [
     'by_status' => 'By Status',
     'total_projects' => 'Total Facilities',
     'status' => 'Status',
+    'download_pdf' => 'Download PDF',
     'notify_members_by_email' => 'Notify members by email',
     'notify_members_by_email_help' => 'An email will be sent to each member informing them that an installations facility has been created and they are included.',
     'email_new_project_subject' => 'New installation project',

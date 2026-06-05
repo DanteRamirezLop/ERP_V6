@@ -2,10 +2,10 @@
 
 namespace Modules\Project\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Utils\ModuleUtil;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\View;
 use Modules\Project\Entities\Project;
 use Modules\Project\Entities\ProjectUser;
@@ -194,6 +194,56 @@ class ReportController extends Controller
 
         return view('project::reports.projects_by_status')
             ->with(compact('statuses'));
+    }
+
+    /**
+     * Download PDF of the projects-by-status report.
+     * Includes project names and creation dates grouped by status.
+     *
+     * @return void (streams PDF)
+     */
+    public function downloadProjectsByStatusPdf(Request $request)
+    {
+        $business_id = request()->session()->get('user.business_id');
+
+        if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'project_module'))) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $start_date = $request->input('start_date');
+        $end_date   = $request->input('end_date');
+        $statuses   = $request->input('status');
+
+        $query = Project::where('business_id', $business_id);
+
+        if (! empty($start_date) && ! empty($end_date)) {
+            if ($start_date === $end_date) {
+                $query->whereDate('created_at', $start_date);
+            } else {
+                $query->whereBetween('created_at', [$start_date, $end_date]);
+            }
+        }
+
+        if (! empty($statuses)) {
+            $query->whereIn('status', $statuses);
+        }
+
+        $projects = $query->select('id', 'name', 'status', 'created_at')
+            ->orderBy('status')
+            ->orderBy('name')
+            ->get();
+
+        $status_labels    = Project::statusDropdown();
+        $projects_grouped = $projects->groupBy('status');
+
+        $html = view('project::reports.pdf.projects_by_status_pdf')
+            ->with(compact('projects_grouped', 'status_labels', 'start_date', 'end_date'))
+            ->render();
+
+        $mpdf = $this->getMpdf();
+        $mpdf->SetTitle(__('project::lang.projects_by_status_report'));
+        $mpdf->WriteHTML($html);
+        $mpdf->Output('instalaciones_por_estado.pdf', 'D');
     }
 
     /**

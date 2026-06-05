@@ -4,9 +4,12 @@
 @section('content')
 @include('project::layouts.nav') 
 <section class="content-header">
-    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black">
-       @lang('report.reports')
-        <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold">   @lang('project::lang.time_logs') @lang('project::lang.by_employees') </small>
+    <h1 class="tw-text-xl md:tw-text-3xl tw-font-bold tw-text-black tw-flex tw-gap-2">
+         <a href="{{action([\Modules\Project\Http\Controllers\ReportController::class, 'index'])}}" class="tw-dw-btn tw-dw-btn-primary tw-dw-btn-sm tw-text-white "> <span class="fa fa-arrow-left"></span></a>
+         <span>
+            @lang('report.reports')
+            <small class="tw-text-sm md:tw-text-base tw-text-gray-700 tw-font-semibold">   @lang('project::lang.time_logs') @lang('project::lang.by_employees') </small>
+        </span>
     </h1>
 </section>
 

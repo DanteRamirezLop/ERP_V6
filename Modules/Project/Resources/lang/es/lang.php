@@ -118,6 +118,7 @@ return [
     'by_status' => 'Por estado',
     'total_projects' => 'Total de instalaciones',
     'status' => 'Estado',
+    'download_pdf' => 'Descargar PDF',
     'notify_members_by_email' => 'Notificar a los miembros por mail',
     'notify_members_by_email_help' => 'Se enviará un correo electrónico a cada miembro informándole que se ha creado una instalación y que está incluido.',
     'email_new_project_subject' => 'Nuevo proyecto de instalación',
