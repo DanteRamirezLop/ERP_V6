@@ -68,6 +68,7 @@ class ScheduleController extends Controller
             $schedules = Schedule::leftjoin('contacts', 'crm_schedules.contact_id', '=', 'contacts.id')
                 ->leftjoin('users as U', 'crm_schedules.created_by', '=', 'U.id')
                 ->leftjoin('categories as C', 'crm_schedules.followup_category_id', '=', 'C.id')
+                ->leftjoin('categories as P', 'crm_schedules.priority_id', '=', 'P.id')
                 ->with(['users'])
                 ->where('crm_schedules.business_id', $business_id)
                 ->select(
@@ -81,7 +82,8 @@ class ScheduleController extends Controller
                     'crm_schedules.created_at as added_on',
                     'contacts.type as contact_type',
                     'contacts.id as contact_id',
-                    'C.name as followup_category'
+                    'C.name as followup_category',
+                    'P.name as priority_name'
                 );
 
             if (request()->input('is_recursive') == 1) {
@@ -115,6 +117,10 @@ class ScheduleController extends Controller
 
             if (!empty(request()->input('followup_category_id'))) {
                 $schedules->where('crm_schedules.followup_category_id', request()->input('followup_category_id'));
+            }
+
+            if (!empty(request()->input('priority_id'))) {
+                $schedules->where('crm_schedules.priority_id', request()->input('priority_id'));
             }
 
             if (!empty(request()->input('start_date_time')) && !empty(request()->input('end_date_time'))) {
@@ -270,10 +276,17 @@ class ScheduleController extends Controller
 
                     return $follow_up_by;
                 })
+                ->editColumn('priority_name', function ($row) {
+                    if (!empty($row->priority_name)) {
+                        return '<span class="label label-info">' . e($row->priority_name) . '</span>';
+                    }
+
+                    return '';
+                })
                 ->removeColumn('id')
                 ->rawColumns([
                     'action', 'start_datetime', 'end_datetime', 'users', 'contact', 'added_on',
-                    'additional_info', 'schedule_type', 'status', 'description',
+                    'additional_info', 'schedule_type', 'status', 'description', 'priority_name',
                 ])
                 ->make(true);
         }
@@ -305,6 +318,8 @@ class ScheduleController extends Controller
         $default_followup_category_id = request()->input('followup_category_id', null);
 
         $followup_category = Category::forDropdown($business_id, 'followup_category');
+        $priority = Category::forDropdown($business_id, 'schedule_priority');
+        $default_priority_id = request()->input('priority_id', null);
 
         return view('crm::schedule.index')
             ->with(compact(
@@ -317,7 +332,9 @@ class ScheduleController extends Controller
                 'default_status',
                 'default_user',
                 'followup_category',
-                'default_followup_category_id'
+                'default_followup_category_id',
+                'priority',
+                'default_priority_id'
             ));
     }
 
@@ -340,10 +357,11 @@ class ScheduleController extends Controller
         $followup_tags = $this->crmUtil->getAdvFollowupsTags();
         $users = User::forDropdown($business_id, false);
         $followup_category = Category::forDropdown($business_id, 'followup_category');
+        $priority = Category::forDropdown($business_id, 'schedule_priority');
 
         if (request()->has('is_recursive')) {
             return view('crm::schedule.create_recursive_follow_up')
-                ->with(compact('statuses', 'follow_up_types', 'notify_type', 'followup_tags', 'users', 'followup_category'));
+                ->with(compact('statuses', 'follow_up_types', 'notify_type', 'followup_tags', 'users', 'followup_category', 'priority'));
         }
 
         $customers = CrmContact::getCustomerAndLeadsDropdown($business_id);
@@ -351,11 +369,11 @@ class ScheduleController extends Controller
             $contact_id = request()->get('contact_id', '');
 
             return view('crm::schedule.create')
-                ->with(compact('customers', 'users', 'statuses', 'contact_id', 'schedule_for', 'follow_up_types', 'notify_type', 'followup_category'));
+                ->with(compact('customers', 'users', 'statuses', 'contact_id', 'schedule_for', 'follow_up_types', 'notify_type', 'followup_category', 'priority'));
         }
 
         return view('crm::schedule.create_advance_follow_up')
-            ->with(compact('statuses', 'schedule_for', 'follow_up_types', 'notify_type', 'followup_tags', 'customers', 'followup_category'));
+            ->with(compact('statuses', 'schedule_for', 'follow_up_types', 'notify_type', 'followup_tags', 'customers', 'followup_category', 'priority'));
     }
 
     /**
@@ -489,9 +507,10 @@ class ScheduleController extends Controller
         $statuses = Schedule::statusDropdown();
         $follow_up_types = Schedule::followUpTypeDropdown();
         $notify_type = Schedule::followUpNotifyTypeDropdown();
+        $priority = Category::forDropdown($business_id, 'schedule_priority');
 
         return view('crm::schedule.edit')
-            ->with(compact('schedule', 'customers', 'users', 'statuses', 'schedule_for', 'follow_up_types', 'notify_type', 'followup_category'));
+            ->with(compact('schedule', 'customers', 'users', 'statuses', 'schedule_for', 'follow_up_types', 'notify_type', 'followup_category', 'priority'));
     }
 
     /**
@@ -602,11 +621,8 @@ class ScheduleController extends Controller
 
         try {
             $start_date = Carbon::today();
-
             $query = $this->crmUtil->getFollowUpForGivenDate(\Auth::user(), $start_date);
-
             $schedules = $query->get();
-
             $schedule_html = view('crm::schedule.partial.today_schedule')
                 ->with(compact('schedules'))
                 ->render();

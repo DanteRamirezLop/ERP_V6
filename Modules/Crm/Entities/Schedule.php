@@ -114,4 +114,9 @@ class Schedule extends Model
     {
         return $this->belongsTo(\App\Category::class, 'followup_category_id');
     }
+
+    public function priority()
+    {
+        return $this->belongsTo(\App\Category::class, 'priority_id');
+    }
 }

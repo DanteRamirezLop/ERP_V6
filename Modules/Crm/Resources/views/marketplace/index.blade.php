@@ -43,14 +43,14 @@
                      <div class="form-group row">
 							   <label for="assigned_users" class="col-sm-2 col-form-label">@lang('crm::lang.followup_assigned_to')*</label>
 							   <div class="col-sm-10">
-							      {!! Form::select('assigned_users[]', $users, $marketplace->assigned_users ?? [], ['class' => 'form-control select2', 'multiple', 'required', 'style' => 'width: 100%;', 'id' => 'assigned_users']); !!}
+							      {!! Form::select('assigned_users[]', $users, $marketplace->assigned_users ?? [], ['style'=>'width: 100%','class' => 'form-control select2',  'multiple', 'required', 'style' => 'width: 100%;', 'id' => 'assigned_users']); !!}
 							   </div>
 							</div>
 
 							<div class="form-group row">
 							   <label for="source_id" class="col-sm-2 col-form-label">@lang('crm::lang.source')*</label>
 							   <div class="col-sm-10">
-							      {!! Form::select('source_id', $sources, $marketplace->source_id ?? '', ['class' => 'form-control select2', 'required', 'style' => 'width: 100%;', 'id' => 'source_id']); !!}
+							      {!! Form::select('source_id', $sources, $marketplace->source_id ?? '', ['style'=>'width: 100%','class' => 'form-control select2',  'required', 'style' => 'width: 100%;', 'id' => 'source_id']); !!}
 							   </div>
 							</div>
 

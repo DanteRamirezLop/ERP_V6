@@ -19,7 +19,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('campaign_type', __('crm::lang.campaign_type') . ':') !!}
-                    {!! Form::select('campaign_type', ['sms' => __('crm::lang.sms'), 'email' => __('business.email')], null, ['class' => 'form-control select2', 'id' => 'campaign_type_filter', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('campaign_type', ['sms' => __('crm::lang.sms'), 'email' => __('business.email')], null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'campaign_type_filter', 'placeholder' => __('messages.all')]); !!}
                 </div>    
             </div>
         </div>

@@ -17,21 +17,21 @@
 	            <div class="col-md-4">
 	                <div class="form-group">
 	                    {!! Form::label('contact_id_filter', __('contact.contact') . ':') !!}
-	                    {!! Form::select('contact_id_filter', $contacts, null, ['class' => 'form-control select2', 'id' => 'contact_id_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('contact_id_filter', $contacts, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'contact_id_filter', 'placeholder' => __('messages.all')]); !!}
 	                </div>    
 	            </div>
 	            @if(auth()->user()->can('crm.access_all_schedule'))
 		            <div class="col-md-4">
 		                <div class="form-group">
 		                    {!! Form::label('assgined_to_filter', __('crm::lang.assgined') . ':') !!}
-		                    {!! Form::select('assgined_to_filter', $assigned_to, $default_user, ['class' => 'form-control select2', 'id' => 'assgined_to_filter', 'placeholder' => __('messages.all')]); !!}
+		                    {!! Form::select('assgined_to_filter', $assigned_to, $default_user, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'assgined_to_filter', 'placeholder' => __('messages.all')]); !!}
 		                </div>    
 		            </div>
 		        @endif
 	            <div class="col-md-4">
 	                <div class="form-group">
 	                    {!! Form::label('status_filter', __('sale.status') . ':') !!}
-	                    {!! Form::select('status_filter', $statuses, $default_status, ['class' => 'form-control select2', 'id' => 'status_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('status_filter', $statuses, $default_status, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'status_filter', 'placeholder' => __('messages.all')]); !!}
 	                </div>    
 	            </div>
 	            <div class="clearfix">
@@ -39,7 +39,7 @@
 	            <div class="col-md-3">
 	                <div class="form-group">
 	                    {!! Form::label('schedule_type_filter', __('crm::lang.schedule_type') . ':') !!}
-	                    {!! Form::select('schedule_type_filter', $follow_up_types, null, ['class' => 'form-control select2', 'id' => 'schedule_type_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('schedule_type_filter', $follow_up_types, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'schedule_type_filter', 'placeholder' => __('messages.all')]); !!}
 	                </div>    
 	            </div>
 	            <div class="col-md-3">
@@ -51,14 +51,20 @@
 	            <div class="col-md-3">
 	                <div class="form-group">
 	                    {!! Form::label('follow_up_by_filter', __('crm::lang.follow_up_by') . ':') !!}
-	                    {!! Form::select('follow_up_by_filter', ['payment_status' => __('sale.payment_status'), 'orders' => __('restaurant.orders')], null, ['class' => 'form-control select2', 'id' => 'follow_up_by_filter', 'placeholder' => __('messages.all')]); !!}
+	                    {!! Form::select('follow_up_by_filter', ['payment_status' => __('sale.payment_status'), 'orders' => __('restaurant.orders')], null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'follow_up_by_filter', 'placeholder' => __('messages.all')]); !!}
 	                </div>    
 	            </div>
 	            <div class="col-md-3">
 	                <div class="form-group">
 	                    {!! Form::label('followup_category_id_filter', __('crm::lang.followup_category') . ':') !!}
-	                    {!! Form::select('followup_category_id_filter', $followup_category, $default_followup_category_id, ['class' => 'form-control select2', 'id' => 'followup_category_id_filter', 'placeholder' => __('messages.all')]); !!}
-	                </div>    
+	                    {!! Form::select('followup_category_id_filter', $followup_category, $default_followup_category_id, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'followup_category_id_filter', 'placeholder' => __('messages.all')]); !!}
+	                </div>
+	            </div>
+	            <div class="col-md-3">
+	                <div class="form-group">
+	                    {!! Form::label('priority_id_filter', __('crm::lang.priority') . ':') !!}
+	                    {!! Form::select('priority_id_filter', $priority, $default_priority_id, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'priority_id_filter', 'placeholder' => __('messages.all')]); !!}
+	                </div>
 	            </div>
 	        </div>
 	    @endcomponent
@@ -100,6 +106,7 @@
 									                <th>@lang('sale.status')</th>
 									                <th>@lang('crm::lang.schedule_type')</th>
 									                <th>@lang('crm::lang.followup_category')</th>
+									                <th>@lang('crm::lang.priority')</th>
 									                <th>@lang('lang_v1.assigned_to')</th>
 									                <th>
 									                	@lang('crm::lang.description')
@@ -208,6 +215,7 @@
 		            	d.schedule_type = $("#schedule_type_filter").val();
 		            	d.follow_up_by = $("#follow_up_by_filter").val();
 		            	d.followup_category_id = $("#followup_category_id_filter").val();
+		            	d.priority_id = $("#priority_id_filter").val();
 
 		            	if ($('#follow_up_date_range').val()) {
 		            		d.start_date_time = $('#follow_up_date_range').data('daterangepicker').startDate.format('YYYY-MM-DD');
@@ -217,7 +225,7 @@
 		        },
 		        columnDefs: [
 		            {
-		                targets: [0, 7, 9],
+		                targets: [0, 8, 10],
 		                orderable: false,
 		                searchable: false,
 		            },
@@ -231,6 +239,7 @@
 		            { data: 'status', name: 'crm_schedules.status' },
 		            { data: 'schedule_type', name: 'schedule_type' },
 		            { data: 'followup_category', name: 'C.name' },
+		            { data: 'priority_name', name: 'P.name' },
 		            { data: 'users', name: 'users' },
 		            { data: 'description', name: 'description'},
 		            { data: 'additional_info', name: 'additional_info' },
@@ -288,7 +297,7 @@
 		        ]
 			});
 
-			$(document).on('change', '#contact_id_filter, #assgined_to_filter, #status_filter, #schedule_type_filter, #follow_up_by_filter', function() {
+			$(document).on('change', '#contact_id_filter, #assgined_to_filter, #status_filter, #schedule_type_filter, #follow_up_by_filter, #priority_id_filter', function() {
 			    follow_up_datatable.ajax.reload();
 			});
 			

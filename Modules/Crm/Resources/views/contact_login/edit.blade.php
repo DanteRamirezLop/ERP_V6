@@ -35,7 +35,7 @@
 		      		<div class="col-md-6">
                         <div class="form-group">
                             {!! Form::label('crm_contact_id', __('contact.contact') .':*') !!}
-                            {!! Form::select('crm_contact_id', $contacts, $user->crm_contact_id, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('crm_contact_id', $contacts, $user->crm_contact_id, ['style'=>'width: 100%','class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
                         </div>
                     </div>
                 @else

@@ -18,13 +18,13 @@
             <div class="form-group">
                 {!! Form::label('sell_list_filter_location_id',  __('purchase.business_location') . ':') !!}
 
-                {!! Form::select('sell_list_filter_location_id', $business_locations, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all') ]); !!}
+                {!! Form::select('sell_list_filter_location_id', $business_locations, null, ['style'=>'width: 100%','class' => 'form-control select2',  'style' => 'width:100%', 'placeholder' => __('lang_v1.all') ]); !!}
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 {!! Form::label('so_list_filter_status',  __('sale.status') . ':') !!}
-                {!! Form::select('so_list_filter_status', $order_statuses, null, ['class' => 'form-control select2', 'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
+                {!! Form::select('so_list_filter_status', $order_statuses, null, ['style'=>'width: 100%','class' => 'form-control select2',  'style' => 'width:100%', 'placeholder' => __('lang_v1.all')]); !!}
             </div>
         </div>
         <div class="col-md-3">

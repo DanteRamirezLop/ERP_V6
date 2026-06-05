@@ -340,7 +340,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             {!! Form::label('followup_category_id', __('crm::lang.followup_category') .':*') !!}
-                            {!! Form::select('followup_category_id', $followup_category, null, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'placeholder' => __('messages.all')]); !!}
+                            {!! Form::select('followup_category_id', $followup_category, null, ['style'=>'width: 100%','class' => 'form-control select2',  'style' => 'width: 100%;', 'placeholder' => __('messages.all')]); !!}
                         </div>
                     </div>
                     <br/>

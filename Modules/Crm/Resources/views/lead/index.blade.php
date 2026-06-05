@@ -19,14 +19,14 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('source', __('crm::lang.source') . ':') !!}
-                    {!! Form::select('source', $sources, null, ['class' => 'form-control select2', 'id' => 'source', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('source', $sources, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'source', 'placeholder' => __('messages.all')]); !!}
                 </div>    
             </div>
             @if($lead_view != 'kanban')
                 <div class="col-md-4">
                     <div class="form-group">
                          {!! Form::label('life_stage', __('crm::lang.life_stage') . ':') !!}
-                        {!! Form::select('life_stage', $life_stages, null, ['class' => 'form-control select2', 'id' => 'life_stage', 'placeholder' => __('messages.all')]); !!}
+                        {!! Form::select('life_stage', $life_stages, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'life_stage', 'placeholder' => __('messages.all')]); !!}
                     </div>
                 </div>
             @endif
@@ -34,7 +34,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('user_id', __('lang_v1.assigned_to') . ':') !!}
-                    {!! Form::select('user_id', $users, null, ['class' => 'form-control select2', 'id' => 'user_id', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('user_id', $users, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'user_id', 'placeholder' => __('messages.all')]); !!}
                 </div>    
             </div>
             @endif

@@ -84,6 +84,14 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
+                            {!! Form::label('priority_id', __('crm::lang.priority') .':') !!}
+                            {!! Form::select('priority_id', $priority, $schedule->priority_id, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]); !!}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
                             <label>
                                 {!! Form::checkbox('allow_notification', 1, $schedule->allow_notification, ['class' => 'input-icheck', 'id' => 'allow_notification']); !!}
                                 @lang('crm::lang.send_notification')

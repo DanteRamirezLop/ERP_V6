@@ -170,6 +170,8 @@ return [
     'none' => 'None',
     'followup_category' => 'Followup Category',
     'manage_followup_category' => 'Manage Followup Category',
+    'priority' => 'Priority',
+    'manage_priority' => 'Manage Priority',
     'commissions' => 'Commissions',
     'contact_person' => 'Contact person',
     'total_commission' => 'Total commission',

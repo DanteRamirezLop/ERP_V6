@@ -18,14 +18,14 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {!! Form::label('contact_id', __('contact.contact') . ':') !!}
-                    {!! Form::select('contact_id', $contacts, null, ['class' => 'form-control select2', 'id' => 'contact_id', 'placeholder' => __('messages.all')]); !!}
+                    {!! Form::select('contact_id', $contacts, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'contact_id', 'placeholder' => __('messages.all')]); !!}
                 </div>    
             </div>
             @can('crm.view_all_call_log')
                 <div class="col-md-4">
                     <div class="form-group">
                         {!! Form::label('user_id', __('crm::lang.call_log_created_by') . ':') !!}
-                        {!! Form::select('user_id', $users, null, ['class' => 'form-control select2', 'id' => 'user_id', 'placeholder' => __('messages.all')]); !!}
+                        {!! Form::select('user_id', $users, null, ['style'=>'width: 100%','class' => 'form-control select2',  'id' => 'user_id', 'placeholder' => __('messages.all')]); !!}
                     </div>    
                 </div>
             @endcan
