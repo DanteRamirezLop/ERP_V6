@@ -114,6 +114,10 @@ return [
     'by_employees' => 'Por empleado',
     'task_id_prefix' => 'Prefijo de ID de tarea',
 
+    'projects_by_status_report' => 'Cantidad de instalaciones',
+    'by_status' => 'Por estado',
+    'total_projects' => 'Total de instalaciones',
+    'status' => 'Estado',
     'notify_members_by_email' => 'Notificar a los miembros por mail',
     'notify_members_by_email_help' => 'Se enviará un correo electrónico a cada miembro informándole que se ha creado una instalación y que está incluido.',
     'email_new_project_subject' => 'Nuevo proyecto de instalación',

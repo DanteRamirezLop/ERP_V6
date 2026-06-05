@@ -46,6 +46,23 @@
 				</div>
 			</div>
 		</div>
+		<div class="col-md-4">
+			<div class="box box-solid">
+				<div class="box-body text-center">
+					<i class="fas fa-chart-bar fs-20"></i> <br>
+					<span class="fs-20">
+						@lang('project::lang.projects_by_status_report') <br>
+						<small>@lang('project::lang.by_status')</small>
+					</span>
+				</div>
+				<div class="box-footer text-center">
+					<a href="{{action([\Modules\Project\Http\Controllers\ReportController::class, 'getProjectsByStatusReport'])}}" class="btn btn-block bg-navy btn-flat">
+						<i class="fa fa-eye"></i>
+						@lang("messages.view")
+					</a>
+				</div>
+			</div>
+		</div>
 	</div>
 <link rel="stylesheet" href="{{ asset('modules/project/sass/project.css?v=' . $asset_v) }}">
 </section>

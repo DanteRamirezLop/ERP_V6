@@ -19,6 +19,7 @@ Route::middleware('web', 'authh', 'SetSessionData', 'auth', 'language', 'timezon
     Route::resource('invoice', 'Modules\Project\Http\Controllers\InvoiceController');
     Route::get('project-employee-timelog-reports', [Modules\Project\Http\Controllers\ReportController::class, 'getEmployeeTimeLogReport']);
     Route::get('project-timelog-reports', [Modules\Project\Http\Controllers\ReportController::class, 'getProjectTimeLogReport']);
+    Route::get('project-by-status-report', [Modules\Project\Http\Controllers\ReportController::class, 'getProjectsByStatusReport']);
     Route::get('project-reports', [Modules\Project\Http\Controllers\ReportController::class, 'index']);
 
     Route::get('/install', [Modules\Project\Http\Controllers\InstallController::class, 'index']);
