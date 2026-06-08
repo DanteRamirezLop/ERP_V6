@@ -10,7 +10,6 @@
 		</h1>
 	</section>
 
-
 	<section class="content no-print">
 		@component('components.filters', ['title' => __('report.filters')])
 	        <div class="row">
@@ -121,6 +120,7 @@
 									                <th>
 									                	@lang('lang_v1.added_on')
 									                </th>
+									                <th>@lang('crm::lang.schedule_document')</th>
 									            </tr>
 									        </thead>
 									        <tbody></tbody>
@@ -246,6 +246,7 @@
 		            { data: 'title', name: 'title' },
 		            { data: 'added_by', name: 'added_by' },
 		            { data: 'added_on', name: 'crm_schedules.created_at' },
+		            { data: 'document', name: 'document', orderable: false, searchable: false },
 		        ],
 		        "fnDrawCallback": function( oSettings ) {
 		        	__show_date_diff_for_human($("#follow_up_table"));

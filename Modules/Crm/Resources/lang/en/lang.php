@@ -23,6 +23,8 @@ return [
     'call' => 'Call',
     'minute' => 'Minute',
     'description' => 'Description',
+    'schedule_document' => 'Document',
+    'view_current_document' => 'View current document',
     'hour' => 'Hour',
     'all_schedules' => 'All Follow ups',
     'schedule_info' => 'Follow Up Info',
@@ -176,4 +178,6 @@ return [
     'contact_person' => 'Contact person',
     'total_commission' => 'Total commission',
     'comma_separated_email' => 'Comma separated values of emails',
+    'high' => 'High',
+    'priority' => 'Priority',
 ];

@@ -41,10 +41,14 @@ class ScheduleLogController extends Controller
      */
     public function index(Request $request)
     {
+
+       
         $business_id = request()->session()->get('user.business_id');
         if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module'))) {
             abort(403, 'Unauthorized action.');
         }
+
+     
 
         $schedule_id = $request->get('schedule_id');
         $modal_content = $request->get('modal_content') == 'false' ? false : true;
@@ -85,7 +89,7 @@ class ScheduleLogController extends Controller
                     'log' => $logs_html,
                 ];
             } catch (Exception $e) {
-                \Log::emergency('File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
+                \Log::emergency('*** File:'.$e->getFile().'Line:'.$e->getLine().'Message:'.$e->getMessage());
 
                 $output = [
                     'success' => false,
@@ -173,6 +177,8 @@ class ScheduleLogController extends Controller
      */
     public function show($id)
     {
+
+      
         $business_id = request()->session()->get('user.business_id');
         if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module'))) {
             abort(403, 'Unauthorized action.');

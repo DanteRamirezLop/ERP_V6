@@ -24,13 +24,12 @@ Route::middleware('web', 'authh', 'auth', 'SetSessionData', 'language', 'timezon
     Route::resource('contact-login', 'Modules\Crm\Http\Controllers\ContactLoginController')->except(['show']);
     Route::resource('follow-ups', 'Modules\Crm\Http\Controllers\ScheduleController')->except(['show']);
     Route::get('todays-follow-ups', [Modules\Crm\Http\Controllers\ScheduleController::class, 'getTodaysSchedule']);
+    Route::get('high-priority-follow-ups', [Modules\Crm\Http\Controllers\ScheduleController::class, 'indexHighPriority']);
     Route::get('lead-follow-ups', [Modules\Crm\Http\Controllers\ScheduleController::class, 'getLeadSchedule']);
     Route::get('get-invoices', [Modules\Crm\Http\Controllers\ScheduleController::class, 'getInvoicesForFollowUp']);
     Route::get('get-followup-groups', [Modules\Crm\Http\Controllers\ScheduleController::class, 'getFollowUpGroups']);
     Route::get('all-users-call-logs', [Modules\Crm\Http\Controllers\CallLogController::class, 'allUsersCallLog']);
-
     Route::resource('follow-up-log', 'Modules\Crm\Http\Controllers\ScheduleLogController');
-
     Route::get('install', [Modules\Crm\Http\Controllers\InstallController::class, 'index']);
     Route::post('install', [Modules\Crm\Http\Controllers\InstallController::class, 'install']);
     Route::get('install/uninstall', [Modules\Crm\Http\Controllers\InstallController::class, 'uninstall']);

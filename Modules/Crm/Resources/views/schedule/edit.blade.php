@@ -1,6 +1,6 @@
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
-        {!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'update'], ['follow_up' => $schedule->id]), 'method' => 'put', 'id' => 'edit_schedule' ]) !!}
+        {!! Form::open(['url' => action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'update'], ['follow_up' => $schedule->id]), 'method' => 'put', 'id' => 'edit_schedule', 'files' => true]) !!}
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -53,15 +53,9 @@
                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            {!! Form::label('description', __('lang_v1.description') . ':') !!}
-                            {!! Form::textarea('description', $schedule->description, ['class' => 'form-control ', 'id' => 'schedule_description']); !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
+
+
+                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('schedule_type', __('crm::lang.schedule_type') .':*') !!}
@@ -76,19 +70,50 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            {!! Form::label('user_id', __('crm::lang.assgined') .':*') !!}
-                            {!! Form::select('user_id[]', $users, $schedule->users->pluck('id'), ['class' => 'form-control select2', 'multiple', 'required', 'style' => 'width: 100%;']); !!}
-                        </div>
+                            {!! Form::label('priority_id', __('crm::lang.priority') .':') !!}
+                            {!! Form::select('priority_id', $priority, $schedule->priority_id, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]); !!}
+                        </div> 
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            {!! Form::label('priority_id', __('crm::lang.priority') .':') !!}
-                            {!! Form::select('priority_id', $priority, $schedule->priority_id, ['class' => 'form-control select2', 'style' => 'width: 100%;', 'placeholder' => __('messages.please_select')]); !!}
+                            {!! Form::label('user_id', __('crm::lang.assgined') .':*') !!}
+                            {!! Form::select('user_id[]', $users, $schedule->users->pluck('id'), ['class' => 'form-control select2', 'multiple', 'required', 'style' => 'width: 100%;']); !!}
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {!! Form::label('description', __('lang_v1.description') . ':') !!}
+                            {!! Form::textarea('description', $schedule->description, ['class' => 'form-control ', 'id' => 'schedule_description']); !!}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            {!! Form::label('schedule_document', __('crm::lang.schedule_document') . ':') !!}
+                            @if(!empty($schedule->document))
+                                <div class="mb-1">
+                                    <a href="{{ asset('uploads/documents/' . $schedule->document) }}" target="_blank">
+                                        <i class="fa fa-file"></i> {{ $schedule->document }}
+                                    </a>
+                                </div>
+                            @endif
+                            {!! Form::file('schedule_document', ['id' => 'schedule_document', 'accept' => implode(',', array_keys(config('constants.document_upload_mimes_types')))]); !!}
+                            <small>
+                                <p class="help-block">@lang('purchase.max_file_size', ['size' => (config('constants.document_size_limit') / 1000000)])
+                                    @includeIf('components.document_help_text')
+                                </p>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">

@@ -165,6 +165,11 @@ class DataController extends Controller
                                 ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'follow-ups']
                             );
                             $sub->url(
+                                action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'indexHighPriority']),
+                                __('crm::lang.follow_ups') . ' - '.  __('crm::lang.priority'),
+                                ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'high-priority-follow-ups']
+                            );
+                            $sub->url(
                                 action([\Modules\Crm\Http\Controllers\CampaignController::class, 'index']),
                                 __('crm::lang.campaigns'),
                                 ['icon' => '', 'active' => request()->segment(1) == 'crm' && request()->segment(2) == 'campaigns']

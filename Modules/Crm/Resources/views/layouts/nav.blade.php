@@ -32,6 +32,11 @@
                     @endif
                     @if(auth()->user()->can('crm.access_all_schedule') || auth()->user()->can('crm.access_own_schedule'))
                     <li @if(request()->segment(2) == 'follow-ups') class="active" @endif><a href="{{action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'index'])}}">@lang('crm::lang.follow_ups')</a></li>
+                    <li @if(request()->segment(2) == 'high-priority-follow-ups') class="active" @endif>
+                        <a href="{{action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'indexHighPriority'])}}">
+                            <i class="fa fa-exclamation-circle text-danger"></i> @lang('crm::lang.follow_ups') -  @lang('crm::lang.priority')
+                        </a>
+                    </li>
                     @endif
                     @if(auth()->user()->can('crm.access_all_campaigns') || auth()->user()->can('crm.access_own_campaigns'))
                     <li @if(request()->segment(2) == 'campaigns') class="active" @endif><a href="{{action([\Modules\Crm\Http\Controllers\CampaignController::class, 'index'])}}">@lang('crm::lang.campaigns')</a></li>

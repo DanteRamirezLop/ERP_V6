@@ -23,6 +23,8 @@ return [
     'call' => 'Llamada',
     'minute' => 'Minuto',
     'description' => 'Descripción',
+    'schedule_document' => 'Documento',
+    'view_current_document' => 'Ver documento actual',
     'hour' => 'Hora',
     'all_schedules' => 'Todos los seguimientos',
     'schedule_info' => 'Información de seguimiento',
@@ -154,4 +156,6 @@ return [
     'my_leads' => 'Mis clientes potenciales',
     'my_leads_to_customer_conversion' => 'Mis leads a conversión de clientes',
     'todays_followups' => 'Seguimientos de hoy',
+    'high' => 'Alta',
+    'priority' => 'Prioridad',
 ];

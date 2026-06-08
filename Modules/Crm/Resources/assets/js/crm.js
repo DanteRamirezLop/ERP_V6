@@ -446,6 +446,7 @@ $(document).ready(function(){
 	    });
 	}
 
+
 	$('.schedule').on('show.bs.modal', function (event) {
 		$('form#add_schedule').validate();
 

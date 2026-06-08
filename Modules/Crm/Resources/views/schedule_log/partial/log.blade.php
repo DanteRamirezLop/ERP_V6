@@ -86,6 +86,7 @@
                 @endif
                 " data-toggle="tooltip" title="@lang('crm::lang.'.$schedule_log->log_type)">
             </i>
+
             <div class="timeline-item">
                 <span class="time pa-0">
                     <span>
@@ -97,7 +98,7 @@
                 </span>
 
                 <h3 class="timeline-header">
-                    <a class="cursor-pointer view_a_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'show'], ['id' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}">
+                    <a class="cursor-pointer view_a_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'show'], ['follow_up_log' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}">
                         {{$schedule_log->subject}}
                     </a>
                 </h3>
@@ -107,17 +108,12 @@
                 </div>
 
                 <div class="timeline-footer">
-                    
-                    <i class="fa fa-eye cursor-pointer m-5 text-info view_a_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'show'], ['id' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}"></i>
-                
-                
-                    <i class="fa fa-edit cursor-pointer m-5 text-primary edit_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'edit'], ['id' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}"></i>
-            
-              
-                    <i class="fas fa-trash cursor-pointer m-5 text-danger delete_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'destroy'], ['id' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}"></i>
-                    
+                    <i class="fa fa-eye cursor-pointer m-5 text-info view_a_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'show'], ['follow_up_log' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}"></i>
+                    <i class="fa fa-edit cursor-pointer m-5 text-primary edit_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'edit'], ['follow_up_log' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}"></i>
+                    <i class="fas fa-trash cursor-pointer m-5 text-danger delete_schedule_log" data-href="{{action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'destroy'], ['follow_up_log' => $schedule_log->id, 'schedule_id' => $schedule_log->schedule_id])}}"></i>
                 </div>
             </div>
+            
         </li>
         <!-- END timeline item -->
     @endforeach

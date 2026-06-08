@@ -283,10 +283,19 @@ class ScheduleController extends Controller
 
                     return '';
                 })
+                ->addColumn('document', function ($row) {
+                    if (!empty($row->document)) {
+                        return '<a href="' . asset('uploads/documents/' . $row->document) . '" download="' . $row->document . '" title="' . $row->document . '">
+                                    <i class="fa fa-download"></i> ' . $row->document . '
+                                </a>';
+                    }
+                    return '';
+                })
                 ->removeColumn('id')
                 ->rawColumns([
                     'action', 'start_datetime', 'end_datetime', 'users', 'contact', 'added_on',
                     'additional_info', 'schedule_type', 'status', 'description', 'priority_name',
+                    'document',
                 ])
                 ->make(true);
         }
@@ -336,6 +345,185 @@ class ScheduleController extends Controller
                 'priority',
                 'default_priority_id'
             ));
+    }
+
+    public function indexHighPriority()
+    {
+        $business_id = request()->session()->get('user.business_id');
+        $can_access_all_schedule = auth()->user()->can('crm.access_all_schedule');
+        $can_access_own_schedule = auth()->user()->can('crm.access_own_schedule');
+
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !($can_access_all_schedule || $can_access_own_schedule)) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $high_priority = \App\Category::where('business_id', $business_id)
+            ->where('category_type', 'schedule_priority')
+            ->where('parent_id', 0)
+            ->orderBy('id', 'asc')
+            ->first();
+
+        $high_priority_id = $high_priority ? $high_priority->id : null;
+
+        if (request()->ajax()) {
+            $schedules = Schedule::leftjoin('contacts', 'crm_schedules.contact_id', '=', 'contacts.id')
+                ->leftjoin('users as U', 'crm_schedules.created_by', '=', 'U.id')
+                ->leftjoin('categories as C', 'crm_schedules.followup_category_id', '=', 'C.id')
+                ->leftjoin('categories as P', 'crm_schedules.priority_id', '=', 'P.id')
+                ->with(['users'])
+                ->where('crm_schedules.business_id', $business_id)
+                ->where('crm_schedules.is_recursive', 0)
+                ->select(
+                    'crm_schedules.*',
+                    'contacts.name as contact',
+                    'contacts.supplier_business_name as biz_name',
+                    'U.surname',
+                    'U.first_name',
+                    'U.last_name',
+                    'crm_schedules.status as status',
+                    'crm_schedules.created_at as added_on',
+                    'contacts.type as contact_type',
+                    'contacts.id as contact_id',
+                    'C.name as followup_category',
+                    'P.name as priority_name'
+                );
+
+            if ($high_priority_id) {
+                $schedules->where('crm_schedules.priority_id', $high_priority_id);
+            }
+
+            if (!auth()->user()->can('superadmin') && !$can_access_all_schedule) {
+                $user_id = auth()->user()->id;
+                $schedules->whereHas('users', function ($q) use ($user_id) {
+                    $q->where('user_id', $user_id);
+                });
+            }
+
+            return Datatables::of($schedules)
+                ->addColumn('action', function ($row) {
+                    $html = '<div class="btn-group">
+                                <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
+                                    ' . __('messages.action') . '
+                                    <span class="caret"></span>
+                                    <span class="sr-only">' . __('messages.action') . '</span>
+                                </button>
+                                  <ul class="dropdown-menu dropdown-menu-left" role="menu">';
+
+                    $html .= '<li>
+                                    <a data-schedule_id="' . $row->id . '" class="cursor-pointer view_schedule_log">
+                                        <i class="fa fa-eye"></i>
+                                        ' . __('crm::lang.view_follow_up') . '
+                                    </a>
+                                </li>';
+
+                    $html .= '<li>
+                                    <a data-href="' . action([\Modules\Crm\Http\Controllers\ScheduleLogController::class, 'create'], ['schedule_id' => $row->id]) . '" class="cursor-pointer schedule_log_add">
+                                        <i class="fa fa-edit"></i>
+                                        ' . __('crm::lang.add_schedule_log') . '
+                                    </a>
+                                </li>';
+
+                    $html .= '<li>
+                                    <a data-href="' . action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'edit'], ['follow_up' => $row->id]) . '" class="cursor-pointer schedule_edit">
+                                        <i class="fa fa-edit"></i>
+                                        ' . __('messages.edit') . '
+                                    </a>
+                                </li>';
+
+                    $html .= '<li>
+                                    <a data-href="' . action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'destroy'], ['follow_up' => $row->id]) . '" class="cursor-pointer schedule_delete">
+                                        <i class="fas fa-trash"></i>
+                                        ' . __('messages.delete') . '
+                                    </a>
+                                </li>';
+
+                    $html .= '</ul></div>';
+
+                    return $html;
+                })
+                ->editColumn('start_datetime', ' @if(!empty($start_datetime))
+                    {{@format_datetime($start_datetime)}}<br>
+                    <i>(<span class="time-from-now">{{$start_datetime}}</span>)</i> @endif
+                ')
+                ->editColumn('end_datetime', '
+                    @if(!empty($end_datetime)){{@format_datetime($end_datetime)}} @endif
+                ')
+                ->editColumn('contact', '
+                    @if(!empty($biz_name)) {{$biz_name}},<br>@endif {{$contact}}
+                    <br>
+                    @if($contact_type == "lead")
+                        <a href="{{action(\'\Modules\Crm\Http\Controllers\LeadController@show\', [\'lead\' => $contact_id])}}" target="_blank">
+                            <i class="fas fa-external-link-square-alt text-info"></i>
+                        </a>
+                    @else
+                    @if(!empty($contact_id))
+                    <a href="{{action(\'App\Http\Controllers\ContactController@show\', [$contact_id])}}" target="_blank">
+                            <i class="fas fa-external-link-square-alt text-info"></i>
+                        </a>
+                    @endif
+                    @endif
+                ')
+                ->addColumn('added_by', function ($row) {
+                    return "{$row->surname} {$row->first_name} {$row->last_name}";
+                })
+                ->addColumn('additional_info', function ($row) {
+                    $html = '';
+                    $infos = $row->followup_additional_info;
+                    if (!empty($infos)) {
+                        foreach ($infos as $key => $value) {
+                            $html .= $key . ' : ' . $value . '<br>';
+                        }
+                    }
+                    return $html;
+                })
+                ->editColumn('added_on', '
+                    {{@format_datetime($added_on)}}
+                ')
+                ->editColumn('schedule_type', function ($row) {
+                    $html = '';
+                    if (!empty($row->schedule_type)) {
+                        $html = '<div class="schedule_type" data-orig-value="' . __('crm::lang.' . $row->schedule_type) . '" data-status-name="' . __('crm::lang.' . $row->schedule_type) . '">
+                                    ' . __('crm::lang.' . $row->schedule_type) . '</div>';
+                    }
+                    return $html;
+                })
+                ->editColumn('users', function ($row) {
+                    $html = '&nbsp;';
+                    if ($row->users->count() > 0) {
+                        foreach ($row->users as $user) {
+                            if (isset($user->media->display_url)) {
+                                $html .= '<img class="user_avatar" src="' . $user->media->display_url . '" data-toggle="tooltip" title="' . $user->user_full_name . '">';
+                            } else {
+                                $html .= '<img class="user_avatar" src="https://ui-avatars.com/api/?name=' . $user->first_name . '" data-toggle="tooltip" title="' . $user->user_full_name . '">';
+                            }
+                        }
+                    }
+                    return $html;
+                })
+                ->editColumn('status', function ($row) {
+                    $html = '';
+                    if (!empty($row->status)) {
+                        $html = '<span class="text-center label status ' . $this->status_bg[$row->status] . '" data-orig-value="' . __('crm::lang.' . $row->status) . '" data-status-name="' . __('crm::lang.' . $row->status) . '"><small>
+                                    ' . __('crm::lang.' . $row->status) . '</small></span>';
+                    }
+                    return $html;
+                })
+                ->editColumn('priority_name', function ($row) {
+                    if (!empty($row->priority_name)) {
+                        return '<span class="label label-info">' . e($row->priority_name) . '</span>';
+                    }
+                    return '';
+                })
+                ->removeColumn('id')
+                ->rawColumns([
+                    'action', 'start_datetime', 'end_datetime', 'users', 'contact', 'added_on',
+                    'additional_info', 'schedule_type', 'status', 'description', 'priority_name',
+                ])
+                ->make(true);
+        }
+
+        return view('crm::schedule.index_high_priority')
+            ->with(compact('high_priority_id', 'high_priority'));
     }
 
     /**
@@ -394,6 +582,13 @@ class ScheduleController extends Controller
             if (empty($input['is_recursive'])) {
                 $input['start_datetime'] = $this->commonUtil->uf_date($input['start_datetime'], true);
                 $input['end_datetime'] = $this->commonUtil->uf_date($input['end_datetime'], true);
+            }
+
+            if ($request->hasFile('schedule_document')) {
+                $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
+                if (!empty($document_name)) {
+                    $input['document'] = $document_name;
+                }
             }
 
             DB::beginTransaction();
@@ -531,9 +726,18 @@ class ScheduleController extends Controller
         }
 
         try {
+            $document_name = null;
+            if ($request->hasFile('schedule_document')) {
+                $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
+            }
+
             $request = $request->except(['_method', '_token', 'schedule_for']);
             $request['start_datetime'] = $this->commonUtil->uf_date($request['start_datetime'], true);
             $request['end_datetime'] = $this->commonUtil->uf_date($request['end_datetime'], true);
+
+            if (!empty($document_name)) {
+                $request['document'] = $document_name;
+            }
 
             $this->crmUtil->updateFollowUp($id, $request, \Auth::user());
 
@@ -645,6 +849,8 @@ class ScheduleController extends Controller
 
     public function getLeadSchedule(Request $request)
     {
+
+      
         $business_id = request()->session()->get('user.business_id');
         if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module'))) {
             abort(403, 'Unauthorized action.');
