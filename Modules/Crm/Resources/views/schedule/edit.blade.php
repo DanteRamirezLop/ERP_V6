@@ -147,7 +147,6 @@
                                     {!! Form::label('notify_before', __('crm::lang.notify_before') . ':*') !!}
                                     <br/>
                                     {!! Form::number('notify_before', $schedule->notify_before, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('crm::lang.notify_before'), 'required']); !!}
-
                                     {!! Form::select('notify_type', $notify_type, $schedule->notify_type, ['class' => 'form-control width-60 pull-left']); !!}
                                 </div>
                             </div>

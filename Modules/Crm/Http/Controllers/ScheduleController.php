@@ -584,6 +584,8 @@ class ScheduleController extends Controller
                 $input['end_datetime'] = $this->commonUtil->uf_date($input['end_datetime'], true);
             }
 
+
+          
             if ($request->hasFile('schedule_document')) {
                 $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
                 if (!empty($document_name)) {

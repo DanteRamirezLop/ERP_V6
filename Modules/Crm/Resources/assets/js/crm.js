@@ -485,12 +485,14 @@ $(document).ready(function(){
 	    e.preventDefault();
 	    var url = $('form#add_schedule').attr('action');
 	    var method = $('form#add_schedule').attr('method');
-	    var data = $('form#add_schedule').serialize();
+	    var data = new FormData($('form#add_schedule')[0]);
 	    $.ajax({
 	        method: method,
 	        dataType: "json",
 	        url: url,
-	        data:data,
+	        data: data,
+	        processData: false,
+	        contentType: false,
 	        success: function(result){
 	            if (result.success) {
 	                $('.schedule').modal("hide");
@@ -612,12 +614,14 @@ $(document).ready(function(){
 	    e.preventDefault();
 	    var url = $('form#edit_schedule').attr('action');
 	    var method = $('form#edit_schedule').attr('method');
-	    var data = $('form#edit_schedule').serialize();
+	    var data = new FormData($('form#edit_schedule')[0]);
 	    $.ajax({
 	        method: method,
 	        dataType: "json",
 	        url: url,
-	        data:data,
+	        data: data,
+	        processData: false,
+	        contentType: false,
 	        success: function(result){
 	            if (result.success) {
 	                $('.edit_schedule').modal("hide");
