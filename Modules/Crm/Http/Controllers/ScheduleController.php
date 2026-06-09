@@ -585,7 +585,6 @@ class ScheduleController extends Controller
             }
 
 
-          
             if ($request->hasFile('schedule_document')) {
                 \Log::info('Paso');
                 $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
