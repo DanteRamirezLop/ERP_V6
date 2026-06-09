@@ -587,11 +587,16 @@ class ScheduleController extends Controller
 
           
             if ($request->hasFile('schedule_document')) {
+                \Log::info('Paso');
                 $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
                 if (!empty($document_name)) {
                     $input['document'] = $document_name;
                 }
+                 \Log::info($document_name);
             }
+
+             \Log::info('Aqui');
+
 
             DB::beginTransaction();
             if (empty($input['follow_ups']) && empty($input['is_recursive'])) {
