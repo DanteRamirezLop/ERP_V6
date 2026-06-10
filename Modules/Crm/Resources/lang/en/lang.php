@@ -16,6 +16,7 @@ return [
     'send_notification' => 'Send Notification',
     'notify_via' => 'Notify Via',
     'notify_before' => 'Notify Before',
+    'notify_assigned_by_email' => 'Notify assigned users by email',
     'assgined' => 'Assgined to',
     'add_schedule' => 'Add Follow Up',
     'sms' => 'Sms',

@@ -96,12 +96,7 @@
                                 {!! Form::checkbox('notify_by_email', 1, true, ['class' => 'input-icheck']) !!}
                                 <strong>@lang('project::lang.notify_members_by_email')</strong>
                             </label>
-                            <!-- <p class="help-block text-muted">
-                                <small>@lang('project::lang.notify_members_by_email_help')</small>
-                            </p> -->
                         </div>
-
-                        
                     </div>
                 </div>
             </div>

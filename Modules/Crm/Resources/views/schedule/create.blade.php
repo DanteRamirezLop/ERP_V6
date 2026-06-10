@@ -71,7 +71,7 @@
                         <div class="form-group">
                             {!! Form::label('user_id', __('crm::lang.assgined') .':*') !!}
                             {!! Form::select('user_id[]', $users, null, ['class' => 'form-control select2', 'multiple', 'required', 'style' => 'width: 100%;']); !!}
-                        </div> 
+                        </div>
                     </div>
                 </div>
                 
@@ -84,7 +84,6 @@
                     </div>
                 </div>
                
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -98,8 +97,17 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
+                     <div class="col-md-4">
+                        <div class="form-group">
+                            <!-- <div class="checkbox"> -->
+                                <label>
+                                    {!! Form::checkbox('notify_by_email', 1, true, ['class' => 'input-icheck']) !!}
+                                    <strong>@lang('crm::lang.notify_assigned_by_email')</strong>
+                                </label>
+                            <!-- </div> -->
+                        </div>
+                    </div>
                     <div class="col-md-4">
                         <div class="form-group">
                             <label>
@@ -132,11 +140,13 @@
                                     {!! Form::label('notify_before', __('crm::lang.notify_before') . ':*') !!}
                                     <br/>
                                     {!! Form::number('notify_before', null, ['class' => 'form-control width-40 pull-left', 'placeholder' => __('crm::lang.notify_before'), 'required']); !!}
-
+                                    
                                     {!! Form::select('notify_type', $notify_type, '', ['class' => 'form-control width-60 pull-left']); !!}
                                 </div>
                             </div>
                         </div>
+
+                        
                     </div>
                 </div>
             </div>

@@ -14,7 +14,9 @@ use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use Modules\Crm\Entities\CrmContact;
+use Illuminate\Support\Facades\Notification;
 use Modules\Crm\Entities\Schedule;
+use Modules\Crm\Notifications\ScheduleNotification;
 use Modules\Crm\Utils\CrmUtil;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -578,34 +580,40 @@ class ScheduleController extends Controller
         }
 
         try {
+
             $input = $request->except(['_token', 'schedule_for', 'contact_ids']);
+
             if (empty($input['is_recursive'])) {
                 $input['start_datetime'] = $this->commonUtil->uf_date($input['start_datetime'], true);
                 $input['end_datetime'] = $this->commonUtil->uf_date($input['end_datetime'], true);
             }
 
-
             if ($request->hasFile('schedule_document')) {
-                \Log::info('Paso');
                 $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
                 if (!empty($document_name)) {
                     $input['document'] = $document_name;
                 }
-                 \Log::info($document_name);
             }
 
-             \Log::info('Aqui');
-
+            $notify_by_email = ! empty($input['notify_by_email']);
+            unset($input['notify_by_email']);
 
             DB::beginTransaction();
             if (empty($input['follow_ups']) && empty($input['is_recursive'])) {
-                $this->crmUtil->addFollowUp($input, \Auth::user());
+                $schedule = $this->crmUtil->addFollowUp($input, \Auth::user());
             } elseif (!empty($input['is_recursive'])) {
-                $this->crmUtil->addRecursiveFollowUp($input, \Auth::user());
+                $schedule = $this->crmUtil->addRecursiveFollowUp($input, \Auth::user());
             } else {
-                $this->crmUtil->addAdvanceFollowUp($input, \Auth::user());
+                $schedule = $this->crmUtil->addAdvanceFollowUp($input, \Auth::user());
             }
             DB::commit();
+
+            if ($notify_by_email && ! empty($schedule)) {
+                $assigned_users = User::find($schedule->users->pluck('id')->toArray());
+                if ($assigned_users->isNotEmpty()) {
+                    Notification::send($assigned_users, new ScheduleNotification($schedule, ['mail']));
+                }
+            }
 
             $schedule_for = request()->get('schedule_for', 'customer');
 
