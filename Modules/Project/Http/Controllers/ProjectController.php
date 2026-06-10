@@ -537,8 +537,11 @@ class ProjectController extends Controller
             $members = $request->input('user_id');
             array_push($members, $request->input('lead_id'));
 
-            $project = Project::where('business_id', $business_id)
+            $project = Project::with('members')
+                            ->where('business_id', $business_id)
                             ->findOrFail($id);
+
+            $old_status = $project->status;
 
             $project->update($input);
             $project_members = $project->members()->sync($members);
@@ -546,6 +549,26 @@ class ProjectController extends Controller
             //update project category
             $categories = $request->input('category_id');
             $project->categories()->sync($categories);
+
+            // send status change notification to all members if status changed
+            if ($old_status !== $input['status']) {
+                $member_ids = $project->fresh('members')->members->pluck('id')->toArray();
+                if (! empty($member_ids)) {
+                    $statuses = Project::statusDropdown();
+                    $project['title'] = __('project::lang.project');
+                    $project['body'] = __(
+                        'project::lang.email_project_status_line1',
+                        [
+                            'project' => $project->name,
+                            'status'  => $statuses[$input['status']] ?? $input['status'],
+                        ]
+                    );
+                    $project['link'] = action([\Modules\Project\Http\Controllers\ProjectController::class, 'show'], [$project->id]);
+                    $project['status_label'] = $statuses[$input['status']] ?? $input['status'];
+
+                    $this->projectUtil->notifyUsersAboutProjectStatusChange($member_ids, $project, true);
+                }
+            }
 
             // send notification to project members
             if (! empty($project_members['attached'])) {
