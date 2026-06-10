@@ -181,4 +181,9 @@ return [
     'comma_separated_email' => 'Comma separated values of emails',
     'high' => 'High',
     'priority' => 'Priority',
+    'email_schedule_subject' => 'Follow Up: :title',
+    'email_schedule_greeting' => 'Hello!',
+    'email_schedule_line1' => 'You have been included in the follow-up ":title", which starts on :startdatetime.',
+    'email_schedule_action' => 'Log in',
+    'email_schedule_line2' => 'Thank you for being part of our team!',
 ];

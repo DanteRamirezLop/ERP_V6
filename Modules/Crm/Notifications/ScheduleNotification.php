@@ -54,11 +54,20 @@ class ScheduleNotification extends Notification
      */
     public function toMail($notifiable)
     {
+        $subject = __('crm::lang.email_schedule_subject', ['title' => $this->schedule->title]);
+
         return (new MailMessage)
-            ->subject('Invitation for schedule')
-            ->greeting('Hi!!')
-            ->line('You have been included in the follow-up: '.$this->schedule->title.', starts at '.$this->schedule->start_datetime)
-            ->action('Log in', url('/login'));
+            ->subject($subject)
+            ->greeting(__('crm::lang.email_schedule_greeting'))
+            ->line(__(
+                'crm::lang.email_schedule_line1',
+                [
+                    'title'          => $this->schedule->title,
+                    'startdatetime'  => $this->schedule->start_datetime,
+                ]
+            ))
+            ->action(__('crm::lang.email_schedule_action'), url('/login'))
+            ->line(__('crm::lang.email_schedule_line2'));
     }
 
     /**
