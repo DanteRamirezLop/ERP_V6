@@ -692,11 +692,30 @@ class ProjectController extends Controller
             $business_id = request()->session()->get('user.business_id');
             $status = request()->get('status');
 
-            $project = Project::where('business_id', $business_id)
+            $project = Project::with('members')
+                            ->where('business_id', $business_id)
                             ->findOrFail($id);
 
             $project->status = $status;
             $project->save();
+
+            // send notification to project members about status change
+            $member_ids = $project->members->pluck('id')->toArray();
+            if (! empty($member_ids)) {
+                $statuses = Project::statusDropdown();
+                $project['title'] = __('project::lang.project');
+                $project['body'] = __(
+                    'project::lang.email_project_status_line1',
+                    [
+                        'project' => $project->name,
+                        'status'  => $statuses[$status] ?? $status,
+                    ]
+                );
+                $project['link'] = action([\Modules\Project\Http\Controllers\ProjectController::class, 'show'], [$project->id]);
+                $project['status_label'] = $statuses[$status] ?? $status;
+
+                $this->projectUtil->notifyUsersAboutProjectStatusChange($member_ids, $project, true);
+            }
 
             $output = [
                 'success' => true,

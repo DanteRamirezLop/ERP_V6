@@ -7,6 +7,7 @@ use App\Utils\Util;
 use Modules\Project\Entities\Project;
 use Modules\Project\Notifications\NewProjectAssignedNotification;
 use Modules\Project\Notifications\NewTaskAssignedNotification;
+use Modules\Project\Notifications\ProjectStatusUpdatedNotification;
 use Notification;
 
 class ProjectUtil extends Util
@@ -68,6 +69,20 @@ class ProjectUtil extends Util
         if (! empty($members)) {
             $notifiable_users = User::find($members);
             Notification::send($notifiable_users, new NewProjectAssignedNotification($project, $send_email));
+        }
+    }
+
+    /**
+     * send notification about project status change.
+     * to users
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function notifyUsersAboutProjectStatusChange($members, $project, $send_email = false)
+    {
+        if (! empty($members)) {
+            $notifiable_users = User::find($members);
+            Notification::send($notifiable_users, new ProjectStatusUpdatedNotification($project, $send_email));
         }
     }
 

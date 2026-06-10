@@ -128,4 +128,6 @@ return [
     'email_new_project_status' => 'Estado del proyecto: :status',
     'email_new_project_action' => 'Ver instalación',
     'email_new_project_line2' => 'Gracias por formar parte del equipo!',
+    'email_project_status_subject' => 'Estado del proyecto actualizado: :project',
+    'email_project_status_line1' => 'El estado del proyecto ":project" ha sido actualizado a ":status".',
 ];

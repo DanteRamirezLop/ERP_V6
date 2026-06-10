@@ -56,8 +56,8 @@ class ScheduleNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Invitation for schedule')
-            ->greeting('Hi')
-            ->line('You have been invited for the schedule '.$this->schedule->title.' starts at '.$this->schedule->start_datetime)
+            ->greeting('Hi!!')
+            ->line('You have been included in the follow-up: '.$this->schedule->title.', starts at '.$this->schedule->start_datetime)
             ->action('Log in', url('/login'));
     }
 

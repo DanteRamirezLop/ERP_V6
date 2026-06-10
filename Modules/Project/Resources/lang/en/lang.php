@@ -127,4 +127,6 @@ return [
     'email_new_project_status' => 'Project status',
     'email_new_project_action' => 'View Facility',
     'email_new_project_line2' => 'Thank you for being part of our team!',
+    'email_project_status_subject' => 'Project status updated: :project',
+    'email_project_status_line1' => 'The status of project ":project" has been updated to ":status".',
 ];
