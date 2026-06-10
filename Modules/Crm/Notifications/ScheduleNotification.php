@@ -18,7 +18,6 @@ class ScheduleNotification extends Notification
      * @return void
      */
     public $schedule;
-
     public $channels;
 
     public function __construct($schedule, $channels)

@@ -158,4 +158,9 @@ return [
     'todays_followups' => 'Seguimientos de hoy',
     'high' => 'Alta',
     'priority' => 'Prioridad',
+    'email_schedule_subject' => 'Follow Up: :title',
+    'email_schedule_greeting' => 'Hello!',
+    'email_schedule_line1' => 'Has sido incluido en el follow-up ":title", comienza en  :startdatetime.',
+    'email_schedule_action' => 'Iniciar sesión',
+    'email_schedule_line2' => '¡Gracias por formar parte de nuestro equipo!',
 ];
