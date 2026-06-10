@@ -599,6 +599,7 @@ class ScheduleController extends Controller
             unset($input['notify_by_email']);
 
             DB::beginTransaction();
+
             if (empty($input['follow_ups']) && empty($input['is_recursive'])) {
                 $schedule = $this->crmUtil->addFollowUp($input, \Auth::user());
             } elseif (!empty($input['is_recursive'])) {
@@ -606,6 +607,7 @@ class ScheduleController extends Controller
             } else {
                 $schedule = $this->crmUtil->addAdvanceFollowUp($input, \Auth::user());
             }
+            
             DB::commit();
 
             if ($notify_by_email && ! empty($schedule)) {
@@ -622,7 +624,7 @@ class ScheduleController extends Controller
                 'msg' => __('lang_v1.success'),
                 'schedule_for' => $schedule_for,
             ];
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
             \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
 

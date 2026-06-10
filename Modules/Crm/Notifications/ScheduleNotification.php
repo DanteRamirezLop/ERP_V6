@@ -2,6 +2,7 @@
 
 namespace Modules\Crm\Notifications;
 
+use App\Utils\NotificationUtil;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -24,6 +25,10 @@ class ScheduleNotification extends Notification
     {
         $this->schedule = $schedule;
         $this->channels = $channels;
+
+        if (in_array('mail', $channels)) {
+            (new NotificationUtil())->configureEmail();
+        }
     }
 
     /**
