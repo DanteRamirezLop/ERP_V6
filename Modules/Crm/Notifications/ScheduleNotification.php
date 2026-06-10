@@ -65,7 +65,7 @@ class ScheduleNotification extends Notification
                     'startdatetime'  => $this->schedule->start_datetime,
                 ]
             ))
-            ->action(__('crm::lang.email_schedule_action'), url('/login'))
+            ->action(__('crm::lang.email_schedule_action'), url('/crm/follow-ups'))
             ->line(__('crm::lang.email_schedule_line2'));
     }
 

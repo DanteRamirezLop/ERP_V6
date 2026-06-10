@@ -185,6 +185,6 @@ return [
 
     'email_schedule_greeting' => 'Hello!',
     'email_schedule_line1' => 'You have been included in the follow-up ":title", which starts on :startdatetime.',
-    'email_schedule_action' => 'Log in',
+    'email_schedule_action' => 'See follow-ups',
     'email_schedule_line2' => 'Thank you for being part of our team!',
 ];
