@@ -27,7 +27,7 @@
 	@component('components.widget', ['class' => 'box-primary', 'title' => __('crm::lang.all_campaigns')])
         @slot('tool')
         	<div class="box-tools">
-                <a class="btn btn-sm btn-primary pull-right m-5" href="{{action([\Modules\Crm\Http\Controllers\CampaignController::class, 'create'])}}">
+                <a class="tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full pull-right m-5" href="{{action([\Modules\Crm\Http\Controllers\CampaignController::class, 'create'])}}">
                     <i class="fa fa-plus"></i> @lang('messages.add')
                 </a>
             </div>

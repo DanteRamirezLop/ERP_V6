@@ -18,7 +18,7 @@
 			@if(empty($proposal_template) && auth()->user()->can('crm.add_proposal_template'))
 		        @slot('tool')
 		            <div class="box-tools">
-		                <a class="btn btn-primary pull-right m-5" href="{{action([\Modules\Crm\Http\Controllers\ProposalTemplateController::class, 'create'])}}">
+		                <a class="tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full pull-right m-5" href="{{action([\Modules\Crm\Http\Controllers\ProposalTemplateController::class, 'create'])}}">
 		                	<i class="fa fa-plus"></i> @lang('messages.add')
 		                </a>
 		            </div>
@@ -37,7 +37,7 @@
 		        				<div class="row">
 		        					@if(auth()->user()->can('crm.add_proposal_template'))
 			        					<div class="col-md-4">
-			        						<a href="{{action([\Modules\Crm\Http\Controllers\ProposalTemplateController::class, 'getEdit'])}}" class="btn btn-primary pull-left">
+			        						<a href="{{action([\Modules\Crm\Http\Controllers\ProposalTemplateController::class, 'getEdit'])}}" class="tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full pull-left">
 			        							@lang('messages.edit')
 			        						</a>
 			        					</div>

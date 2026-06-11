@@ -72,10 +72,10 @@
 				@component('components.widget', ['class' => 'box box-solid', 'title' => __('crm::lang.all_schedules')])
 					@slot('tool')
 			            <div class="box-tools">
-			                <button type="button" class="btn btn-primary btn-add-schedule">
+			                <button type="button" class="tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full pull-right btn-add-schedule">
 			                <i class="fa fa-plus"></i> @lang('messages.add')</button>
 
-			                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#advance_followup_modal">
+			                <button type="button" class=" tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full pull-right" data-toggle="modal" data-target="#advance_followup_modal">
 			                <i class="fa fa-plus"></i> @lang('crm::lang.add_advance_follow_up')</button>
 			            </div>
 			            <input type="hidden" name="schedule_create_url" id="schedule_create_url" value="{{action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'create'])}}">
@@ -300,6 +300,31 @@
 
 			$(document).on('change', '#contact_id_filter, #assgined_to_filter, #status_filter, #schedule_type_filter, #follow_up_by_filter, #priority_id_filter', function() {
 			    follow_up_datatable.ajax.reload();
+			});
+
+			$(document).on('click', '.quick-status-option', function(e) {
+				e.preventDefault();
+				var id = $(this).data('id');
+				var status = $(this).data('status');
+				$.ajax({
+					url: '/crm/follow-ups/' + id + '/quick-status',
+					method: 'PATCH',
+					data: {
+						status: status,
+						_token: $('meta[name="csrf-token"]').attr('content')
+					},
+					success: function(res) {
+						if (res.success) {
+							follow_up_datatable.ajax.reload(null, false);
+							toastr.success(res.msg);
+						} else {
+							toastr.error(res.msg);
+						}
+					},
+					error: function() {
+						toastr.error('{{ __("messages.something_went_wrong") }}');
+					}
+				});
 			});
 			
 			// Set default date from get parameter

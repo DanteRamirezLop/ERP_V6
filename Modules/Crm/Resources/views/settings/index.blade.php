@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-primary pull-right">@lang( 'messages.update' )</button>
+                    <button type="submit" class="tw-dw-btn tw-dw-btn-primary tw-text-white pull-right">@lang( 'messages.update' )</button>
                 </div>
             @endcomponent
             {!! Form::close() !!}
@@ -41,7 +41,7 @@
             @component('components.widget', ['class' => 'box-solid', 'title' => __('crm::lang.manage_priority')])
                 @slot('tool')
                     <div class="box-tools">
-                        <button type="button" class="btn btn-primary btn-sm" id="btn_add_priority">
+                        <button type="button" class="tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full" id="btn_add_priority">
                             <i class="fa fa-plus"></i> @lang('messages.add')
                         </button>
                     </div>

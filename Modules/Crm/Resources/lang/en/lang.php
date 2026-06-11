@@ -187,4 +187,7 @@ return [
     'email_schedule_line1' => 'You have been included in the follow-up ":title", which starts on :startdatetime.',
     'email_schedule_action' => 'See follow-ups',
     'email_schedule_line2' => 'Thank you for being part of our team!',
+
+    'email_schedule_status_subject' => 'Follow-up status updated: :title',
+    'email_schedule_status_line1' => 'The status of follow-up ":title" has been updated to ":status".',
 ];

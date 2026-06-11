@@ -145,7 +145,7 @@ class ScheduleController extends Controller
             return Datatables::of($schedules)
                 ->addColumn('action', function ($row) {
                     $html = '<div class="btn-group">
-                                <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
+                                <button class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline tw-dw-btn-info tw-w-max dropdown-toggle" type="button"  data-toggle="dropdown" aria-expanded="false">
                                     ' . __('messages.action') . '
                                     <span class="caret"></span>
                                     <span class="sr-only">'
@@ -258,14 +258,28 @@ class ScheduleController extends Controller
                     return $html;
                 })
                 ->editColumn('status', function ($row) {
-                    $html = '';
-                    if (!empty($row->status)) {
-                        $html = '<span class="text-center label status ' . $this->status_bg[$row->status] . '" data-orig-value="' . __('crm::lang.' . $row->status) . '" data-status-name="' . __('crm::lang.' . $row->status) . '"><small>
-                                    ' . __('crm::lang.' . $row->status) .
-                            '</small></span>';
+                    if (empty($row->status)) {
+                        return '';
                     }
-
-                    return $html;
+                    $bg = $this->status_bg[$row->status] ?? 'bg-gray';
+                    $label = __('crm::lang.' . $row->status);
+                    $statuses = [
+                        'scheduled' => __('crm::lang.scheduled'),
+                        'open' => __('crm::lang.open'),
+                        'cancelled' => __('crm::lang.canceled'),
+                        'completed' => __('crm::lang.completed'),
+                    ];
+                    $items = '';
+                    foreach ($statuses as $key => $name) {
+                        $active = $row->status === $key ? ' class="active"' : '';
+                        $items .= '<li' . $active . '><a href="#" class="quick-status-option" data-id="' . $row->id . '" data-status="' . $key . '">' . $name . '</a></li>';
+                    }
+                    return '<div class="btn-group">
+                        <span class="label status ' . $bg . ' dropdown-toggle" data-toggle="dropdown" data-orig-value="' . $label . '" data-status-name="' . $label . '" style="cursor:pointer;">
+                            <small>' . $label . '</small> <i class="fa fa-caret-down"></i>
+                        </span>
+                        <ul class="dropdown-menu">' . $items . '</ul>
+                    </div>';
                 })
                 ->editColumn('follow_up_by', function ($row) {
                     $follow_up_by = '';
@@ -404,7 +418,7 @@ class ScheduleController extends Controller
             return Datatables::of($schedules)
                 ->addColumn('action', function ($row) {
                     $html = '<div class="btn-group">
-                                <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
+                                <button class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline tw-dw-btn-info tw-w-max dropdown-toggle" type="button"  data-toggle="dropdown" aria-expanded="false">
                                     ' . __('messages.action') . '
                                     <span class="caret"></span>
                                     <span class="sr-only">' . __('messages.action') . '</span>
@@ -503,12 +517,28 @@ class ScheduleController extends Controller
                     return $html;
                 })
                 ->editColumn('status', function ($row) {
-                    $html = '';
-                    if (!empty($row->status)) {
-                        $html = '<span class="text-center label status ' . $this->status_bg[$row->status] . '" data-orig-value="' . __('crm::lang.' . $row->status) . '" data-status-name="' . __('crm::lang.' . $row->status) . '"><small>
-                                    ' . __('crm::lang.' . $row->status) . '</small></span>';
+                    if (empty($row->status)) {
+                        return '';
                     }
-                    return $html;
+                    $bg = $this->status_bg[$row->status] ?? 'bg-gray';
+                    $label = __('crm::lang.' . $row->status);
+                    $statuses = [
+                        'scheduled' => __('crm::lang.scheduled'),
+                        'open' => __('crm::lang.open'),
+                        'cancelled' => __('crm::lang.canceled'),
+                        'completed' => __('crm::lang.completed'),
+                    ];
+                    $items = '';
+                    foreach ($statuses as $key => $name) {
+                        $active = $row->status === $key ? ' class="active"' : '';
+                        $items .= '<li' . $active . '><a href="#" class="quick-status-option" data-id="' . $row->id . '" data-status="' . $key . '">' . $name . '</a></li>';
+                    }
+                    return '<div class="btn-group">
+                        <span class="label status ' . $bg . ' dropdown-toggle" data-toggle="dropdown" data-orig-value="' . $label . '" data-status-name="' . $label . '" style="cursor:pointer;">
+                            <small>' . $label . '</small> <i class="fa fa-caret-down"></i>
+                        </span>
+                        <ul class="dropdown-menu">' . $items . '</ul>
+                    </div>';
                 })
                 ->editColumn('priority_name', function ($row) {
                     if (!empty($row->priority_name)) {
@@ -776,6 +806,42 @@ class ScheduleController extends Controller
         return $output;
     }
 
+    public function quickUpdateStatus(Request $request, $id)
+    {
+        $business_id = request()->session()->get('user.business_id');
+        $can_access = auth()->user()->can('crm.access_all_schedule') || auth()->user()->can('crm.access_own_schedule');
+
+        if (!(auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module')) || !$can_access) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        try {
+            $new_status = $request->input('status');
+            $schedule = Schedule::with('users')->where('business_id', $business_id)->findOrFail($id);
+
+            $old_status = $schedule->status;
+            $schedule->status = $new_status;
+            $schedule->save();
+
+            if ($old_status !== $new_status) {
+                $assigned_users = User::find($schedule->users->pluck('id')->toArray());
+                if ($assigned_users->isNotEmpty()) {
+                    $statuses = Schedule::statusDropdown();
+                    $schedule->status_label = $statuses[$new_status] ?? $new_status;
+
+                    Notification::send($assigned_users, new \Modules\Crm\Notifications\ScheduleStatusNotification($schedule, true));
+                }
+            }
+
+            $output = ['success' => true, 'msg' => __('lang_v1.success')];
+        } catch (\Exception $e) {
+            \Log::emergency('File:' . $e->getFile() . 'Line:' . $e->getLine() . 'Message:' . $e->getMessage());
+            $output = ['success' => false, 'msg' => __('messages.something_went_wrong')];
+        }
+
+        return response()->json($output);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -881,7 +947,7 @@ class ScheduleController extends Controller
         return Datatables::of($schedules)
             ->addColumn('action', function ($row) {
                 $html = '<div class="btn-group">
-                            <button class="btn btn-info dropdown-toggle btn-xs" type="button"  data-toggle="dropdown" aria-expanded="false">
+                            <button class="tw-dw-btn tw-dw-btn-xs tw-dw-btn-outline tw-dw-btn-info tw-w-max dropdown-toggle" type="button"  data-toggle="dropdown" aria-expanded="false">
                                 ' . __('messages.action') . '
                                 <span class="caret"></span>
                                 <span class="sr-only">'

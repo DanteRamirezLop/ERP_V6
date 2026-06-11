@@ -21,7 +21,7 @@
 				@component('components.widget', ['class' => 'box box-solid', 'title' => __('crm::lang.all_schedules')])
 					@slot('tool')
 			            <div class="box-tools">
-			                <button type="button" class="btn btn-primary btn-add-schedule">
+			                <button type="button" class="tw-m-2 tw-dw-btn tw-bg-gradient-to-r tw-from-indigo-600 tw-to-blue-500 tw-font-bold tw-text-white tw-border-none tw-rounded-full pull-right btn-add-schedule">
 			                <i class="fa fa-plus"></i> @lang('messages.add')</button>
 			            </div>
 			            <input type="hidden" name="schedule_create_url" id="schedule_create_url" value="{{action([\Modules\Crm\Http\Controllers\ScheduleController::class, 'create'])}}">

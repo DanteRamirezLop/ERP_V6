@@ -1,9 +1,9 @@
 <?php
 
+// use App\Http\Controllers\Auth;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AccountReportsController;
 use App\Http\Controllers\AccountTypeController;
-// use App\Http\Controllers\Auth;
 use App\Http\Controllers\BackUpController;
 use App\Http\Controllers\BarcodeController;
 use App\Http\Controllers\BrandController;
@@ -85,16 +85,10 @@ Route::middleware(['setData'])->group(function () {
     Route::post('/business/register', [BusinessController::class, 'postRegister'])->name('business.postRegister');
     Route::post('/business/register/check-username', [BusinessController::class, 'postCheckUsername'])->name('business.postCheckUsername');
     Route::post('/business/register/check-email', [BusinessController::class, 'postCheckEmail'])->name('business.postCheckEmail');
-
-    Route::get('/invoice/{token}', [SellPosController::class, 'showInvoice'])
-        ->name('show_invoice');
-    Route::get('/quote/{token}', [SellPosController::class, 'showInvoice'])
-        ->name('show_quote');
-
-    Route::get('/pay/{token}', [SellPosController::class, 'invoicePayment'])
-        ->name('invoice_payment');
-    Route::post('/confirm-payment/{id}', [SellPosController::class, 'confirmPayment'])
-        ->name('confirm_payment');
+    Route::get('/invoice/{token}', [SellPosController::class, 'showInvoice'])->name('show_invoice');
+    Route::get('/quote/{token}', [SellPosController::class, 'showInvoice'])->name('show_quote');
+    Route::get('/pay/{token}', [SellPosController::class, 'invoicePayment'])->name('invoice_payment');
+    Route::post('/confirm-payment/{id}', [SellPosController::class, 'confirmPayment'])->name('confirm_payment');
 });
 
 //Routes for authenticated users only
@@ -472,8 +466,7 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
 
     Route::resource('warranties', WarrantyController::class);
 
-    Route::resource('dashboard-configurator', DashboardConfiguratorController::class)
-    ->only(['edit', 'update']);
+    Route::resource('dashboard-configurator', DashboardConfiguratorController::class)->only(['edit', 'update']);
 
     Route::get('view-media/{model_id}', [SellController::class, 'viewMedia']);
 
