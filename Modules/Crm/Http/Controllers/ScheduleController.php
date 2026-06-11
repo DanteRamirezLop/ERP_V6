@@ -777,6 +777,8 @@ class ScheduleController extends Controller
                 $document_name = $this->commonUtil->uploadFile($request, 'schedule_document', 'documents');
             }
 
+            $old_status = Schedule::where('business_id', $business_id)->find($id)?->status;
+
             $request = $request->except(['_method', '_token', 'schedule_for']);
             $request['start_datetime'] = $this->commonUtil->uf_date($request['start_datetime'], true);
             $request['end_datetime'] = $this->commonUtil->uf_date($request['end_datetime'], true);
@@ -785,7 +787,17 @@ class ScheduleController extends Controller
                 $request['document'] = $document_name;
             }
 
-            $this->crmUtil->updateFollowUp($id, $request, \Auth::user());
+            $schedule = $this->crmUtil->updateFollowUp($id, $request, \Auth::user());
+
+            $new_status = $request['status'] ?? null;
+            if ($old_status !== $new_status && !empty($new_status)) {
+                $assigned_users = User::find($schedule->fresh('users')->users->pluck('id')->toArray());
+                if ($assigned_users->isNotEmpty()) {
+                    $statuses = Schedule::statusDropdown();
+                    $schedule->status_label = $statuses[$new_status] ?? $new_status;
+                    Notification::send($assigned_users, new \Modules\Crm\Notifications\ScheduleStatusNotification($schedule, true));
+                }
+            }
 
             $schedule_for = request()->get('schedule_for', 'customer');
 
@@ -828,7 +840,6 @@ class ScheduleController extends Controller
                 if ($assigned_users->isNotEmpty()) {
                     $statuses = Schedule::statusDropdown();
                     $schedule->status_label = $statuses[$new_status] ?? $new_status;
-
                     Notification::send($assigned_users, new \Modules\Crm\Notifications\ScheduleStatusNotification($schedule, true));
                 }
             }

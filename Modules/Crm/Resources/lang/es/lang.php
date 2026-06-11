@@ -159,7 +159,7 @@ return [
     'high' => 'Alta',
     'priority' => 'Prioridad',
     'email_schedule_subject' => 'Follow Up: :title',
-    'email_schedule_greeting' => 'Hello!',
+    'email_schedule_greeting' => 'Hola!',
     'email_schedule_line1' => 'Has sido incluido en el follow-up ":title", comienza en  :startdatetime.',
     'email_schedule_action' => 'Ver follow-up',
     'email_schedule_line2' => '¡Gracias por formar parte de nuestro equipo!',
