@@ -5,7 +5,7 @@
                 <span aria-hidden="true">&times;</span>
             </button>
             <h4 class="modal-title" id="myModalLabel">
-                {{$schedule_log->subject}}
+               {{$schedule_log->subject}}
             </h4>
         </div>
         <div class="modal-body">

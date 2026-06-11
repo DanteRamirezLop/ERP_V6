@@ -119,4 +119,9 @@ class Schedule extends Model
     {
         return $this->belongsTo(\App\Category::class, 'priority_id');
     }
+
+    public function scheduleType()
+    {
+        return $this->belongsTo(\Modules\Crm\Entities\ScheduleType::class, 'schedule_type_id');
+    }
 }

@@ -166,4 +166,6 @@ return [
 
     'email_schedule_status_subject' => 'Estado de follow-up actualizado: :title',
     'email_schedule_status_line1' => 'El estado del follow-up ":title" ha sido actualizado a ":status".',
+
+     'name'=>'Nombre',
 ];

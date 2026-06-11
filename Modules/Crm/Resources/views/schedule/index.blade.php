@@ -97,9 +97,7 @@
 									        <thead>
 									            <tr>
 									            	<th>@lang('messages.action')</th>
-									            	<th>
-									            		@lang('contact.contact')
-									            	</th>
+									            	<th>@lang('contact.contact')</th>
 									            	<th>@lang('crm::lang.start_datetime')</th>
 									                <th>@lang('crm::lang.end_datetime')</th>
 									                <th>@lang('sale.status')</th>
@@ -149,19 +147,11 @@
 									                <th>@lang('crm::lang.follow_up_by')</th>
 									                <th>@lang('crm::lang.in_days')</th>
 									                <th>@lang('lang_v1.assigned_to')</th>
-									                <th>
-									                	@lang('crm::lang.description')
-									                </th>
-									                <th>
-									                	@lang('crm::lang.additional_info')
-									                </th>
+									                <th>@lang('crm::lang.description')</th>
+									                <th>@lang('crm::lang.additional_info')</th>
 									                <th>@lang('crm::lang.title')</th>
-									                <th>
-									                	@lang('lang_v1.added_by')
-									                </th>
-									                <th>
-									                	@lang('lang_v1.added_on')
-									                </th>
+									                <th>@lang('lang_v1.added_by')</th>
+									                <th>@lang('lang_v1.added_on')</th>
 									            </tr>
 									        </thead>
 									    </table>
@@ -176,7 +166,6 @@
 	</section>
 	<div class="modal fade schedule" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel"></div>
     <div class="modal fade edit_schedule" tabindex="-1" role="dialog"></div>
-
 	<div class="modal fade schedule_log_modal" tabindex="-1" role="dialog"></div>
 
     @include('crm::schedule.partial.advance_followup_modal')
@@ -237,7 +226,7 @@
 		        	{ data: 'start_datetime', name: 'start_datetime' },
 		            { data: 'end_datetime', name: 'end_datetime' },
 		            { data: 'status', name: 'crm_schedules.status' },
-		            { data: 'schedule_type', name: 'schedule_type' },
+		            { data: 'schedule_type', name: 'ST.name' },
 		            { data: 'followup_category', name: 'C.name' },
 		            { data: 'priority_name', name: 'P.name' },
 		            { data: 'users', name: 'users' },
@@ -285,7 +274,7 @@
 		        columns: [
 		        	{ data: 'action', name: 'action' },
 		            { data: 'status', name: 'crm_schedules.status' },
-		            { data: 'schedule_type', name: 'schedule_type' },
+		            { data: 'schedule_type', name: 'ST.name' },
 		            { data: 'followup_category', name: 'C.name' },
 		            { data: 'follow_up_by', name: 'crm_schedules.follow_up_by' },
 		            { data: 'recursion_days', name: 'crm_schedules.recursion_days' },

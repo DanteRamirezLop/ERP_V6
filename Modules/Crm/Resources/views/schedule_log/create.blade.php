@@ -24,7 +24,11 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             {!! Form::label('log_type', __('crm::lang.log_type') .':*') !!}
-                            {!! Form::select('log_type', ['call' => __('crm::lang.call'), 'sms' => __('crm::lang.sms'), 'meeting' => __('crm::lang.meeting'), 'email' => __('business.email')], $schedule->schedule_type, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::select('log_type',
+                                $follow_up_types,
+                                $schedule->schedule_type, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']);
+                             !!}
+
                         </div>
                     </div>
                     <div class="col-md-4">

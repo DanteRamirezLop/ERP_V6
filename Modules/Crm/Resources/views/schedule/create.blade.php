@@ -49,9 +49,10 @@
                  <div class="row">
                     <div class="col-md-4">
                         <div class="form-group">
-                            {!! Form::label('schedule_type', __('crm::lang.schedule_type') .':*') !!}
-                            {!! Form::select('schedule_type', $follow_up_types, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
+                            {!! Form::label('schedule_type_id', __('crm::lang.schedule_type') .':*') !!}
+                            {!! Form::select('schedule_type_id', $follow_up_types, null, ['class' => 'form-control select2', 'placeholder' => __('messages.please_select'), 'required', 'style' => 'width: 100%;']); !!}
                         </div>
+                   
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">

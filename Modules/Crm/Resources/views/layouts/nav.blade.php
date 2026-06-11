@@ -86,6 +86,12 @@
                         <li @if(request()->get('type') == 'life_stage') class="active" @endif><a href="{{action([\App\Http\Controllers\TaxonomyController::class, 'index']) . '?type=life_stage'}}">@lang('crm::lang.life_stage')</a></li>
 
                         <li @if(request()->get('type') == 'followup_category') class="active" @endif><a href="{{action([\App\Http\Controllers\TaxonomyController::class, 'index']) . '?type=followup_category'}}">@lang('crm::lang.followup_category')</a></li>
+
+                        <li @if(request()->segment(2) == 'schedule-types') class="active" @endif>
+                            <a href="{{ action([\Modules\Crm\Http\Controllers\ScheduleTypeController::class, 'index']) }}">
+                                @lang('crm::lang.schedule_type') 
+                            </a>
+                        </li>
                     @endcan
                     <li @if(request()->segment(2) == 'settings') class="active" @endif>
                         <a href="{{action([\Modules\Crm\Http\Controllers\CrmSettingsController::class, 'index'])}}">

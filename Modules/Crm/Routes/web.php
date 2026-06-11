@@ -23,6 +23,7 @@ Route::middleware('web', 'authh', 'auth', 'SetSessionData', 'language', 'timezon
     Route::get('all-contacts-login', [Modules\Crm\Http\Controllers\ContactLoginController::class, 'allContactsLoginList']);
     Route::resource('contact-login', 'Modules\Crm\Http\Controllers\ContactLoginController')->except(['show']);
     Route::resource('follow-ups', 'Modules\Crm\Http\Controllers\ScheduleController')->except(['show']);
+    Route::resource('schedule-types', 'Modules\Crm\Http\Controllers\ScheduleTypeController')->except(['show', 'create']);
     Route::patch('follow-ups/{id}/quick-status', [\Modules\Crm\Http\Controllers\ScheduleController::class, 'quickUpdateStatus']);
     Route::get('todays-follow-ups', [Modules\Crm\Http\Controllers\ScheduleController::class, 'getTodaysSchedule']);
     Route::get('high-priority-follow-ups', [Modules\Crm\Http\Controllers\ScheduleController::class, 'indexHighPriority']);

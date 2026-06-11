@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\View;
 use Modules\Crm\Entities\CrmContact;
 use Illuminate\Support\Facades\Notification;
 use Modules\Crm\Entities\Schedule;
+use Modules\Crm\Entities\ScheduleType;
 use Modules\Crm\Notifications\ScheduleNotification;
 use Modules\Crm\Utils\CrmUtil;
 use Yajra\DataTables\Facades\DataTables;
@@ -71,6 +72,7 @@ class ScheduleController extends Controller
                 ->leftjoin('users as U', 'crm_schedules.created_by', '=', 'U.id')
                 ->leftjoin('categories as C', 'crm_schedules.followup_category_id', '=', 'C.id')
                 ->leftjoin('categories as P', 'crm_schedules.priority_id', '=', 'P.id')
+                ->leftjoin('crm_schedule_types as ST', 'crm_schedules.schedule_type_id', '=', 'ST.id')
                 ->with(['users'])
                 ->where('crm_schedules.business_id', $business_id)
                 ->select(
@@ -85,7 +87,8 @@ class ScheduleController extends Controller
                     'contacts.type as contact_type',
                     'contacts.id as contact_id',
                     'C.name as followup_category',
-                    'P.name as priority_name'
+                    'P.name as priority_name',
+                    'ST.name as schedule_type'
                 );
 
             if (request()->input('is_recursive') == 1) {
@@ -114,7 +117,7 @@ class ScheduleController extends Controller
             }
 
             if (!empty(request()->input('schedule_type'))) {
-                $schedules->where('crm_schedules.schedule_type', request()->input('schedule_type'));
+                $schedules->where('crm_schedules.schedule_type_id', request()->input('schedule_type'));
             }
 
             if (!empty(request()->input('followup_category_id'))) {
@@ -234,14 +237,10 @@ class ScheduleController extends Controller
                     {{@format_datetime($added_on)}}
                 ')
                 ->editColumn('schedule_type', function ($row) {
-                    $html = '';
                     if (!empty($row->schedule_type)) {
-                        $html = '<div class="schedule_type" data-orig-value="' . __('crm::lang.' . $row->schedule_type) . '" data-status-name="' . __('crm::lang.' . $row->schedule_type) . '">
-                                    ' . __('crm::lang.' . $row->schedule_type) .
-                            '</div>';
+                        return '<div class="schedule_type">' . e($row->schedule_type) . '</div>';
                     }
-
-                    return $html;
+                    return '';
                 })
                 ->editColumn('users', function ($row) {
                     $html = '&nbsp;';
@@ -328,7 +327,7 @@ class ScheduleController extends Controller
 
         $assigned_to = User::forDropdown($business_id, false);
         $statuses = Schedule::statusDropdown(true);
-        $follow_up_types = Schedule::followUpTypeDropdown();
+        $follow_up_types = ScheduleType::forDropdown($business_id);
 
         // Set default user from get parameter
         $default_user = request()->input('assigned_to', null);
@@ -386,6 +385,7 @@ class ScheduleController extends Controller
                 ->leftjoin('users as U', 'crm_schedules.created_by', '=', 'U.id')
                 ->leftjoin('categories as C', 'crm_schedules.followup_category_id', '=', 'C.id')
                 ->leftjoin('categories as P', 'crm_schedules.priority_id', '=', 'P.id')
+                ->leftjoin('crm_schedule_types as ST', 'crm_schedules.schedule_type_id', '=', 'ST.id')
                 ->with(['users'])
                 ->where('crm_schedules.business_id', $business_id)
                 ->where('crm_schedules.is_recursive', 0)
@@ -401,7 +401,8 @@ class ScheduleController extends Controller
                     'contacts.type as contact_type',
                     'contacts.id as contact_id',
                     'C.name as followup_category',
-                    'P.name as priority_name'
+                    'P.name as priority_name',
+                    'ST.name as schedule_type'
                 );
 
             if ($high_priority_id) {
@@ -496,12 +497,10 @@ class ScheduleController extends Controller
                     {{@format_datetime($added_on)}}
                 ')
                 ->editColumn('schedule_type', function ($row) {
-                    $html = '';
                     if (!empty($row->schedule_type)) {
-                        $html = '<div class="schedule_type" data-orig-value="' . __('crm::lang.' . $row->schedule_type) . '" data-status-name="' . __('crm::lang.' . $row->schedule_type) . '">
-                                    ' . __('crm::lang.' . $row->schedule_type) . '</div>';
+                        return '<div class="schedule_type">' . e($row->schedule_type) . '</div>';
                     }
-                    return $html;
+                    return '';
                 })
                 ->editColumn('users', function ($row) {
                     $html = '&nbsp;';
@@ -572,7 +571,8 @@ class ScheduleController extends Controller
 
         $schedule_for = request()->get('schedule_for', 'customer');
         $statuses = Schedule::statusDropdown();
-        $follow_up_types = Schedule::followUpTypeDropdown();
+        $follow_up_types = ScheduleType::forDropdown($business_id);
+
         $notify_type = Schedule::followUpNotifyTypeDropdown();
         $followup_tags = $this->crmUtil->getAdvFollowupsTags();
         $users = User::forDropdown($business_id, false);
@@ -746,7 +746,7 @@ class ScheduleController extends Controller
 
         $users = User::forDropdown($business_id, false);
         $statuses = Schedule::statusDropdown();
-        $follow_up_types = Schedule::followUpTypeDropdown();
+        $follow_up_types = ScheduleType::forDropdown($business_id);
         $notify_type = Schedule::followUpNotifyTypeDropdown();
         $priority = Category::forDropdown($business_id, 'schedule_priority');
 

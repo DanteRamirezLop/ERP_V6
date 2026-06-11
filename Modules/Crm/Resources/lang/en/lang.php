@@ -190,4 +190,6 @@ return [
 
     'email_schedule_status_subject' => 'Follow-up status updated: :title',
     'email_schedule_status_line1' => 'The status of follow-up ":title" has been updated to ":status".',
+
+    'name'=>'Name',
 ];

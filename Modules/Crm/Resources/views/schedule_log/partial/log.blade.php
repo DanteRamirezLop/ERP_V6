@@ -70,15 +70,30 @@
         <li>
             <!-- timeline icon -->
             <i class="
-                @if($schedule_log->log_type == 'email')
-                    fa fa-envelope
-                @elseif($schedule_log->log_type == 'call')
-                    fas fa fa-phone-alt
-                @elseif($schedule_log->log_type == 'sms')
-                    fas fa fa-sms
-                @elseif($schedule_log->log_type == 'meeting')
-                    fas fa fa-handshake
-                @endif
+               
+
+                @switch($schedule_log->log_type)
+
+                    @case('email')
+                        fa fa-envelope
+                    @break
+
+                    @case('call')
+                        fas fa fa-phone-alt
+                    @break
+
+                    @case('sms')
+                        fas fa fa-sms
+                    @break
+
+                    @case('meeting')
+                        fas fa fa-handshake
+                    @break
+
+                    @default
+                      fas fa fa-broadcast-tower
+                @endswitch
+               
                 @if($schedule_log->created_at == $schedule_log->updated_at)
                     bg-green
                 @else
@@ -89,6 +104,10 @@
 
             <div class="timeline-item">
                 <span class="time pa-0">
+                    <span>
+                        <i class="fas fa-broadcast-tower"></i>
+                        {{$schedule_log->log_type}}
+                    </span><br>
                     <span>
                         <i class="fas fa-pen"></i>
                         {{$schedule_log->createdBy->user_full_name}}

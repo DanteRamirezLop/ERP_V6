@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\View;
 use Modules\Crm\Entities\CrmCallLog;
 use Modules\Crm\Entities\Schedule;
 use Modules\Crm\Entities\ScheduleLog;
+use Modules\Crm\Entities\ScheduleType;
 
 class ScheduleLogController extends Controller
 {
@@ -114,13 +115,14 @@ class ScheduleLogController extends Controller
         }
 
         $id = request()->get('schedule_id');
-        $schedule = Schedule::where('business_id', $business_id)
-                        ->findOrFail($id);
+        $schedule = Schedule::where('business_id', $business_id)->findOrFail($id);
         $customers = Contact::customersDropdown($business_id, false);
         $statuses = Schedule::statusDropdown();
 
+        $follow_up_types = ScheduleType::forDropdownByName($business_id);
+
         return view('crm::schedule_log.create')
-            ->with(compact('schedule', 'customers', 'statuses'));
+            ->with(compact('schedule', 'customers', 'statuses','follow_up_types'));
     }
 
     /**
@@ -131,6 +133,7 @@ class ScheduleLogController extends Controller
      */
     public function store(Request $request)
     {
+        //log_type
         $business_id = request()->session()->get('user.business_id');
         if (! (auth()->user()->can('superadmin') || $this->moduleUtil->hasThePermissionInSubscription($business_id, 'crm_module'))) {
             abort(403, 'Unauthorized action.');
@@ -142,8 +145,7 @@ class ScheduleLogController extends Controller
             $input['end_datetime'] = $this->commonUtil->uf_date($request->input('end_datetime'), true);
             $input['created_by'] = $request->user()->id;
 
-            $schedule = Schedule::where('business_id', $business_id)
-                        ->findOrFail($request->get('schedule_id'));
+            $schedule = Schedule::where('business_id', $business_id)->findOrFail($request->get('schedule_id'));
 
             //update schedule status
             if (! empty($request->input('status'))) {
