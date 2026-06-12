@@ -74,7 +74,40 @@ use Illuminate\Support\Facades\Route;
 
 include_once 'install_r.php';
 
+
+Route::get('/crear-tabla-crm-schedule-types', function () {
+
+    Artisan::call('migrate', [
+        '--path' => 'Modules/Crm/Database/Migrations/2026_06_11_000001_create_crm_schedule_types_table.php',
+        '--force' => true,
+    ]);
+    return 'Migración ejecutada correctamente 111.';
+});
+
+
+Route::get('/crear-tabla-crm-schedule-types', function () {
+
+    Artisan::call('migrate', [
+        '--path' => 'Modules/Crm/Database/Migrations/2026_06_11_000001_create_crm_schedule_types_table.php',
+        '--force' => true,
+    ]);
+    return 'Migración ejecutada correctamente 2222.';
+});
+
+
+Route::get('/soft-deletes-crm-schedule-types', function () {
+
+    Artisan::call('migrate', [
+        '--path' => 'Modules/Crm/Database/Migrations/2026_06_11_000002_add_soft_deletes_to_crm_schedule_types_table.php',
+        '--force' => true,
+    ]);
+    return 'Migración ejecutada correctamente 222.';
+});
+
+
 Route::middleware(['setData'])->group(function () {
+
+
     Route::get('/', function () {
         //return view('welcome');
         return redirect('/login');
@@ -97,14 +130,11 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('service-staff-availability', [SellPosController::class, 'showServiceStaffAvailibility']);
     Route::get('pause-resume-service-staff-timer/{user_id}', [SellPosController::class, 'pauseResumeServiceStaffTimer']);
     Route::get('mark-as-available/{user_id}', [SellPosController::class, 'markAsAvailable']);
-
     Route::resource('purchase-requisition', PurchaseRequisitionController::class)->except(['edit', 'update']);
     Route::post('/get-requisition-products', [PurchaseRequisitionController::class, 'getRequisitionProducts'])->name('get-requisition-products');
     Route::get('get-purchase-requisitions/{location_id}', [PurchaseRequisitionController::class, 'getPurchaseRequisitions']);
     Route::get('get-purchase-requisition-lines/{purchase_requisition_id}', [PurchaseRequisitionController::class, 'getPurchaseRequisitionLines']);
-
     Route::get('/sign-in-as-user/{id}', [ManageUserController::class, 'signInAsUser'])->name('sign-in-as-user');
-
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/home/get-totals', [HomeController::class, 'getTotals']);
     Route::get('/home/product-stock-alert', [HomeController::class, 'getProductStockAlert']);
@@ -112,7 +142,6 @@ Route::middleware(['setData', 'auth', 'SetSessionData', 'language', 'timezone', 
     Route::get('/home/sales-payment-dues', [HomeController::class, 'getSalesPaymentDues']);
     Route::post('/attach-medias-to-model', [HomeController::class, 'attachMediasToGivenModel'])->name('attach.medias.to.model');
     Route::get('/calendar', [HomeController::class, 'getCalendar'])->name('calendar');
-
     Route::post('/test-email', [BusinessController::class, 'testEmailConfiguration']);
     Route::post('/test-sms', [BusinessController::class, 'testSmsConfiguration']);
     Route::get('/business/settings', [BusinessController::class, 'getBusinessSettings'])->name('business.getBusinessSettings');
