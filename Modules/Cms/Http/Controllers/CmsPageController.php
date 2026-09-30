@@ -167,6 +167,12 @@ class CmsPageController extends Controller
 
             $input['is_enabled'] = ! empty($request->is_enabled);
 
+            if (! empty($request->input('created_at'))) {
+                //conserva la hora original, solo cambia la fecha
+                $created_at = ! empty($page->created_at) ? $page->created_at->copy() : \Carbon\Carbon::now();
+                $input['created_at'] = $created_at->setDateFrom(\Carbon\Carbon::parse($request->input('created_at')));
+            }
+
             $page->update($input);
 
             if (! empty($request->input('meta'))) {

@@ -115,12 +115,22 @@
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
+                                {!! Form::label('created_at', 'Fecha de creación:') !!}
+                                <input type="date" name="created_at" id="created_at" class="form-control"
+                                    value="{{ !empty($page->created_at) ? $page->created_at->format('Y-m-d') : '' }}">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <br>
                                 <label>
                                   {!! Form::checkbox('is_enabled', 1, $page->is_enabled, ['class' => 'input-icheck']); !!} <strong>@lang('cms::lang.is_enabled')</strong>
                                 </label> 
                             </div>
                         </div>
+
+                        
+                        <!-- input de fecha aquí -->
 						
 						<div class="col-md-12">
                             <div class="form-group">
