@@ -59,7 +59,7 @@
 						<div class="col-md-12">
                             <div class="form-group">
                                 {!! Form::label('slug', $title_label . ':*' )!!}
-                                {!! Form::text('slug', $page->slug, ['class' => 'form-control disabled_input', 'required' ]) !!}
+                                {!! Form::text('slug', $page->slug, ['class' => 'form-control disabled_input', 'required', 'readonly' => 'readonly']) !!}
                             </div>
                         </div>
                         <div class="col-md-12">
