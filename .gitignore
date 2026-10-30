@@ -25,4 +25,4 @@ npm-debug.log
 .scribe
 /public/docs
 /public/js/skins/
-/public/js/icons/
+/public/js/icons/.DS_Store
